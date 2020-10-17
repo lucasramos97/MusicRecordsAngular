@@ -1,0 +1,29 @@
+
+<div class="row mt-0 mr-3 mb-0 ml-3">
+    <div class="col-md-12">
+        <p-table [value]="musics" class="table text-center">
+            <ng-template pTemplate="header">
+                <tr class="thead-dark">
+                    <th scope="col" style="width: 5%;">#</th>
+                    <th scope="col" style="width: 25%;">Title</th>
+                    <th scope="col" style="width: 25%;">Artist</th>
+                    <th scope="col" style="width: 15%;">Launch Date</th>
+                    <th scope="col" style="width: 10%;">Duration</th>
+                    <th scope="col" style="width: 15%;">Views Number</th>
+                    <th scope="col" style="width: 5%;">Feat</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-music let-rowIndex="rowIndex">
+                <tr>
+                    <td class="font-weight-bold">{{rowIndex + 1}}</td>
+                    <td>{{music.title}}</td>
+                    <td>{{music.artist}}</td>
+                    <td>{{music.launchDate | date: 'MMMM, dd yyyy'}}</td>
+                    <td>{{music.duration | musicTime}} min</td>
+                    <td>{{music.viewsNumber | currency:'':'':'1.0-0'}}</td>
+                    <td>{{music.feat | musicFeat}}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
