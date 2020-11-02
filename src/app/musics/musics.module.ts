@@ -3,16 +3,16 @@ import { CommonModule } from '@angular/common';
 
 import { TableModule } from 'primeng/table'
 
-import { MusicsComponent } from './musics-component/musics.component';
+import { ListMusicComponent } from './list-music-component/list-music.component';
 import { PipesModule } from '../pipes/pipes.module';
 
 @NgModule({
-  declarations: [MusicsComponent],
+  declarations: [ListMusicComponent],
   imports: [
     CommonModule,
     TableModule,
     PipesModule
   ],
-  exports: [MusicsComponent]
+  exports: [ListMusicComponent]
 })
 export class MusicsModule { }

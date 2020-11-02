@@ -6,11 +6,12 @@ import { MusicService } from '../service/music.service';
 
 @Component({
   selector: 'app-musics',
-  templateUrl: './musics.component.html',
-  styleUrls: ['./musics.component.css']
+  templateUrl: './list-music.component.html',
+  styleUrls: ['./list-music.component.css']
 })
-export class MusicsComponent implements OnInit, OnDestroy {
+export class ListMusicComponent implements OnInit, OnDestroy {
 
+  title = 'Music Records';
   musics: Array<Music>;
   subscriptions: Array<Subscription> = new Array<Subscription>();
 
