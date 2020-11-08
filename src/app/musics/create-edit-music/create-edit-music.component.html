@@ -1,0 +1,97 @@
+<form>
+
+    <p-messages [(value)]="msgs"></p-messages>
+
+    <div class="card">
+
+        <div class="p-grid">
+            <div class="p-col-12">
+                <div class="p-fluid">
+                    <label for="title">Title</label>
+                    <div class="p-field form-input">
+                        <input id="title" name="title" type="text" aria-describedby="title-help"
+                            [(ngModel)]="music.title" pInputText [class]="requiredStyle.get('title')" />
+                    </div>
+                    <small id="title-help" [class]="requiredStyle.get('title')">{{requiredFields.get("title")}}</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-grid">
+            <div class="p-col-12">
+                <div class="p-fluid form-field">
+                    <label for="artist">Artist</label>
+                    <div class="p-field form-input">
+                        <input id="artist" name="artist" type="text" aria-describedby="artist-help"
+                            [(ngModel)]="music.artist" pInputText [class]="requiredStyle.get('artist')" />
+                    </div>
+                    <small id="artist-help"
+                        [class]="requiredStyle.get('artist')">{{requiredFields.get("artist")}}</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-grid">
+            <div class="p-col-6">
+                <div class="p-fluid form-field">
+                    <label for="launchDate">Launch Date</label>
+                    <div class="p-field form-input">
+                        <p-inputMask id="launchDate" name="launchDate" type="text" aria-describedby="launchDate-help"
+                            [(ngModel)]="music.launchDate" mask="9999-99-99">
+                        </p-inputMask>
+                    </div>
+                    <small id="launchDate-help"
+                        [class]="requiredStyle.get('launchDate')">{{requiredFields.get("launchDate")}}</small>
+                </div>
+            </div>
+            <div class="p-col-6">
+                <div class="p-fluid form-field">
+                    <label for="duration">Duration</label>
+                    <div class="p-field form-input">
+                        <p-inputMask id="duration" name="duration" aria-describedby="duration-help"
+                            [(ngModel)]="music.duration" mask="99:99:99" [class]="requiredStyle.get('duration')">
+                        </p-inputMask>
+                    </div>
+                    <small id="duration-help"
+                        [class]="requiredStyle.get('duration')">{{requiredFields.get("duration")}}</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-grid">
+            <div class="p-col-6">
+                <div class="p-fluid form-field">
+                    <label for="viewsNumber">Views Number</label>
+                    <div class="p-field form-input">
+                        <p-inputNumber id="viewsNumber" name="viewsNumber" [(ngModel)]="music.viewsNumber">
+                        </p-inputNumber>
+                    </div>
+                    <small>(Optional)</small>
+                </div>
+            </div>
+            <div class="p-col-6">
+                <div class="p-fluid form-field">
+                    <label>Feat</label>
+                    <div class="p-formgroup-inline form-radio">
+                        <div class="p-field-checkbox">
+                            <p-radioButton inputId="feat-yes" name="feat-yes" [(ngModel)]="music.feat" [value]="true">
+                            </p-radioButton>
+                            <label for="feat-yes">Yes</label>
+                        </div>
+                        <div class="p-field-checkbox">
+                            <p-radioButton inputId="feat-no" name="feat-no" [(ngModel)]="music.feat" [value]="false">
+                            </p-radioButton>
+                            <label for="feat-no">No</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="form-button">
+        <p-button label="Save" (click)="saveMusic()" styleClass="p-button-success" icon="pi pi-save"></p-button>
+    </div>
+
+</form>

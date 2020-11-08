@@ -11,18 +11,24 @@ import { MusicService } from '../service/music.service';
 })
 export class ListMusicComponent implements OnInit, OnDestroy {
 
-  title = 'Music Records';
   musics: Array<Music>;
-  subscriptions: Array<Subscription> = new Array<Subscription>();
+  subscriptions: Array<Subscription>;
+  displayCreateEditMusic: boolean;
 
   constructor(private musicService: MusicService) { }
 
   ngOnInit(): void {
+    this.subscriptions = new Array<Subscription>();
+    this.displayCreateEditMusic = false;
     this.subscriptions.push(this.musicService.getAll().subscribe(musics => this.musics = musics));
   }
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+
+  showCreateEditMusic(): void {
+    this.displayCreateEditMusic = true;
   }
 
 }

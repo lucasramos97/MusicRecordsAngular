@@ -16,4 +16,9 @@ export class MusicService {
   getAll(): Observable<Array<Music>> {
     return this.httpClient.get<Array<Music>>(this.urlBase);
   }
+
+  save(music: Music): Observable<Music> {
+    return this.httpClient.post<Music>(this.urlBase, music);
+  }
+
 }
