@@ -1,8 +1,10 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Music } from '../Model/Music';
-import { MusicService } from '../service/music.service';
+import { MusicService } from '../service/music/music.service';
+import { BehaviorSubjectService } from '../service/behavior-subject/behavior-subject.service'
 import { Message } from 'primeng/api';
+import { MUSIC_SAVE_SUCCESSFULLY } from '../utils/Consts';
 
 @Component({
   selector: 'app-create-edit-music',
@@ -11,16 +13,19 @@ import { Message } from 'primeng/api';
 })
 export class CreateEditMusicComponent implements OnInit, OnDestroy {
 
-  readonly RED_COLOR = '#f44336';
-  readonly FIELDS_NOT_REQUIRED: Array<string> = ['viewsNumber', 'feat'];
+  private readonly RED_COLOR = '#f44336';
+  private readonly FIELDS_NOT_REQUIRED: Array<string> = ['viewsNumber', 'feat'];
 
   music: Music;
   requiredStyle: Map<string, string>;
   requiredFields: Map<string, string>;
-  subscriptions: Array<Subscription>;
   msgs: Array<Message>;
+  private subscriptions: Array<Subscription>;
 
-  constructor(private musicService: MusicService) { }
+  constructor(
+    private musicService: MusicService,
+    private behaviorSubjectService: BehaviorSubjectService
+  ) { }
 
   ngOnInit(): void {
     this.music = new Music();
@@ -44,8 +49,11 @@ export class CreateEditMusicComponent implements OnInit, OnDestroy {
     this.msgs = [];
     if (this.validFields()) {
       this.subscriptions.push(this.musicService.save(this.music).subscribe(
-        res => this.msgs = [{severity:'success', summary:'Success', detail:'Music added successfully!'}],
-        error => this.msgs = [{severity:'error', summary:'Error', detail:'Error when adding music!'}]));
+        res => {
+          this.msgs = [{ severity: 'success', summary: 'Success', detail: 'Music added successfully!' }];
+          this.behaviorSubjectService.sendMessage(MUSIC_SAVE_SUCCESSFULLY);
+        },
+        error => this.msgs = [{ severity: 'error', summary: 'Error', detail: 'Error when adding music!' }]));
       this.music = new Music();
     }
   }
@@ -54,7 +62,7 @@ export class CreateEditMusicComponent implements OnInit, OnDestroy {
     let valid: boolean = true;
 
     for (let [key, value] of Object.entries(this.music)) {
-      if (!value && this.FIELDS_NOT_REQUIRED.indexOf(key) == -1) {
+      if (!value && this.FIELDS_NOT_REQUIRED.indexOf(key) === -1) {
         this.addInputFieldRequired(key);
         valid = false;
       } else {
@@ -78,11 +86,11 @@ export class CreateEditMusicComponent implements OnInit, OnDestroy {
   private capitalizeField(field: string): string {
     let capitalizeField = '';
     for (let i = 0; i < field.length; i++) {
-      if (i == 0) {
+      if (i === 0) {
         capitalizeField += field[i].toUpperCase();
         continue;
       }
-      if (field[i].toUpperCase() == field[i]) {
+      if (field[i].toUpperCase() === field[i]) {
         capitalizeField += ` ${field[i]}`;
       } else {
         capitalizeField += field[i];
@@ -92,15 +100,15 @@ export class CreateEditMusicComponent implements OnInit, OnDestroy {
   }
 
   private changeMaskFieldRequired(field: string, color: string): void {
-    if (field == 'launchDate') {
+    if (field === 'launchDate') {
       this.changeInputMaskBorderColor(0, color);
-    } else if (field == 'duration') {
+    } else if (field === 'duration') {
       this.changeInputMaskBorderColor(1, color);
     }
   }
 
   private changeInputMaskBorderColor(index: number, color: string): void {
-    let inputMask = <HTMLInputElement> document.getElementsByClassName('p-inputmask p-inputtext p-component')[index];
+    let inputMask = <HTMLInputElement>document.getElementsByClassName('p-inputmask p-inputtext p-component')[index];
     inputMask.style.borderColor = color;
   }
 
