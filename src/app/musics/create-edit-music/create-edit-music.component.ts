@@ -48,6 +48,7 @@ export class CreateEditMusicComponent implements OnInit, OnDestroy {
   saveMusic(): void {
     this.msgs = [];
     if (this.validFields()) {
+      this.music.duration = this.formatMusicDuration(this.music.duration);
       this.subscriptions.push(this.musicService.save(this.music).subscribe(
         res => {
           this.msgs = [{ severity: 'success', summary: 'Success', detail: 'Music added successfully!' }];
@@ -115,6 +116,10 @@ export class CreateEditMusicComponent implements OnInit, OnDestroy {
   private clearInputFieldRequired(field: string): void {
     this.changeTextFieldRequired(field, '', '');
     this.changeMaskFieldRequired(field, '');
+  }
+
+  private formatMusicDuration(duration: string): string {
+    return `00:${duration}`;
   }
 
 }
