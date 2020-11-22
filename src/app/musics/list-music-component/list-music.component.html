@@ -1,17 +1,22 @@
 <h1 class="title">Music Records</h1>
 
-<p-button (click)="showCreateEditMusic()" label="Add Music" icon="pi pi-plus"></p-button>
+<div class="table-top-button">
+    <p-button (click)="showCreateEditMusic()" label="Add Music" icon="pi pi-plus"></p-button>
+</div>
 
-<p-table [value]="musics">
+<p-table [value]="musics" [lazy]="true" (onLazyLoad)="loadMusics($event)" [paginator]="true" [rows]="5"
+    [totalRecords]="totalRecords" [loading]="loading" >
     <ng-template pTemplate="header">
         <tr>
             <th style="width: 5%;">#</th>
-            <th style="width: 25%;">Title</th>
-            <th style="width: 25%;">Artist</th>
+            <th style="width: 20%;">Title</th>
+            <th style="width: 20%;">Artist</th>
             <th style="width: 15%;">Launch Date</th>
             <th style="width: 10%;">Duration</th>
             <th style="width: 15%;">Views Number</th>
             <th style="width: 5%;">Feat</th>
+            <th style="width: 5%;">Edit</th>
+            <th style="width: 5%;">Delete</th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-music let-rowIndex="rowIndex">
@@ -23,6 +28,12 @@
             <td>{{music.duration | musicTime}} min</td>
             <td>{{music.viewsNumber | currency:'':'':'1.0-0'}}</td>
             <td>{{music.feat | musicFeat}}</td>
+            <td>
+                <p-button icon="pi pi-user-edit" pTooltip="Edit Music" tooltipPosition="bottom"></p-button>
+            </td>
+            <td>
+                <p-button icon="pi pi-trash" pTooltip="Delete Music"></p-button>
+            </td>
         </tr>
     </ng-template>
 </p-table>

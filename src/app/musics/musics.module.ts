@@ -11,6 +11,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
+import { TooltipModule } from 'primeng/tooltip';
 
 import { ListMusicComponent } from './list-music-component/list-music.component';
 import { PipesModule } from '../pipes/pipes.module';
@@ -30,7 +31,8 @@ import { CreateEditMusicComponent } from './create-edit-music/create-edit-music.
     InputNumberModule,
     RadioButtonModule,
     MessagesModule,
-    MessageModule
+    MessageModule,
+    TooltipModule
   ],
   exports: [ListMusicComponent]
 })

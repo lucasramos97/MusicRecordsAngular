@@ -4,7 +4,7 @@ import { Music } from '../Model/Music';
 import { MusicService } from '../service/music/music.service';
 import { BehaviorSubjectService } from '../service/behavior-subject/behavior-subject.service'
 import { Message } from 'primeng/api';
-import { MUSIC_SAVE_SUCCESSFULLY } from '../utils/Consts';
+import { UPDATE_MUSIC_LIST } from '../utils/Consts';
 
 @Component({
   selector: 'app-create-edit-music',
@@ -46,13 +46,12 @@ export class CreateEditMusicComponent implements OnInit, OnDestroy {
   }
 
   saveMusic(): void {
-    this.msgs = [];
     if (this.validFields()) {
       this.music.duration = this.formatMusicDuration(this.music.duration);
       this.subscriptions.push(this.musicService.save(this.music).subscribe(
         res => {
           this.msgs = [{ severity: 'success', summary: 'Success', detail: 'Music added successfully!' }];
-          this.behaviorSubjectService.sendMessage(MUSIC_SAVE_SUCCESSFULLY);
+          this.behaviorSubjectService.sendMessage(UPDATE_MUSIC_LIST);
         },
         error => this.msgs = [{ severity: 'error', summary: 'Error', detail: 'Error when adding music!' }]));
       this.music = new Music();

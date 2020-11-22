@@ -1,2 +1,2 @@
 
-export const MUSIC_SAVE_SUCCESSFULLY = 'music-save-successfully';
+export const UPDATE_MUSIC_LIST = 'update-music-list';

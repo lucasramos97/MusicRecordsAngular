@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { Music } from '../../Model/Music';
+import { MusicRequest } from '../../Model/MusicRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,8 @@ export class MusicService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getAll(): Observable<Array<Music>> {
-    return this.httpClient.get<Array<Music>>(this.urlBase);
+  getAll(page: number): Observable<MusicRequest> {
+    return this.httpClient.get<MusicRequest>(`${this.urlBase}?page=${page}&size=5`);
   }
 
   save(music: Music): Observable<Music> {
