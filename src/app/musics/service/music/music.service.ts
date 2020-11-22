@@ -22,4 +22,8 @@ export class MusicService {
     return this.httpClient.post<Music>(this.urlBase, music);
   }
 
+  edit(music: Music): Observable<Music> {
+    return this.httpClient.put<Music>(this.urlBase, music);
+  }
+
 }

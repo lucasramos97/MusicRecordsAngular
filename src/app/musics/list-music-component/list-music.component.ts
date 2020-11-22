@@ -16,6 +16,7 @@ export class ListMusicComponent implements OnInit, OnDestroy {
 
   musics: Array<Music>;
   displayCreateEditMusic: boolean;
+  musicEdit: Music;
   eventLazyLoad: LazyLoadEvent;
   loading: boolean;
   totalRecords: number;
@@ -35,11 +36,7 @@ export class ListMusicComponent implements OnInit, OnDestroy {
     }));
   }
 
-  ngOnDestroy(): void {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
-  }
-
-  showCreateEditMusic(): void {
+  showCreateMusic(): void {
     this.displayCreateEditMusic = true;
   }
 
@@ -49,12 +46,25 @@ export class ListMusicComponent implements OnInit, OnDestroy {
     this.eventLazyLoad = event;
 
     setTimeout(() => {
-      this.subscriptions.push(this.musicService.getAll(event.first/event.rows).subscribe(musics => {
+      this.subscriptions.push(this.musicService.getAll(event.first / event.rows).subscribe(musics => {
         this.musics = musics.content;
         this.totalRecords = musics.totalElements;
       }));
       this.loading = false;
     }, 1000);
+  }
+
+  showEditMusic(musicEdit: Music): void {
+    this.displayCreateEditMusic = true;
+    this.musicEdit = musicEdit;
+  }
+
+  clearMusicEdit(): void {
+    this.musicEdit = null;
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
 }

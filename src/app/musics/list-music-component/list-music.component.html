@@ -1,11 +1,11 @@
 <h1 class="title">Music Records</h1>
 
 <div class="table-top-button">
-    <p-button (click)="showCreateEditMusic()" label="Add Music" icon="pi pi-plus"></p-button>
+    <p-button (click)="showCreateMusic()" label="Add Music" icon="pi pi-plus"></p-button>
 </div>
 
 <p-table [value]="musics" [lazy]="true" (onLazyLoad)="loadMusics($event)" [paginator]="true" [rows]="5"
-    [totalRecords]="totalRecords" [loading]="loading" >
+    [totalRecords]="totalRecords" [loading]="loading">
     <ng-template pTemplate="header">
         <tr>
             <th style="width: 5%;">#</th>
@@ -29,7 +29,8 @@
             <td>{{music.viewsNumber | currency:'':'':'1.0-0'}}</td>
             <td>{{music.feat | musicFeat}}</td>
             <td>
-                <p-button icon="pi pi-user-edit" pTooltip="Edit Music" tooltipPosition="bottom"></p-button>
+                <p-button (click)="showEditMusic(music)" icon="pi pi-user-edit" pTooltip="Edit Music"
+                    tooltipPosition="bottom"></p-button>
             </td>
             <td>
                 <p-button icon="pi pi-trash" pTooltip="Delete Music"></p-button>
@@ -39,6 +40,7 @@
 </p-table>
 
 <p-dialog header="Add Music" [(visible)]="displayCreateEditMusic" [modal]="true" appendTo="body" [baseZIndex]="10000"
-    [draggable]="false" [resizable]="false" (onShow)="createMusic.showDialog()" [style]="{width: '50vw'}">
+    [draggable]="false" [resizable]="false" (onShow)="createMusic.showDialog(musicEdit)" (onHide)="clearMusicEdit()"
+    [style]="{width: '50vw'}">
     <app-create-edit-music #createMusic></app-create-edit-music>
 </p-dialog>
