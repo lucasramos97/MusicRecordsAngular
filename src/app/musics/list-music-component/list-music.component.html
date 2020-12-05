@@ -1,5 +1,9 @@
 <h1 class="title">Music Records</h1>
 
+<div>
+    <p-messages [(value)]="msgs"></p-messages>
+</div>
+
 <div class="table-top-button">
     <p-button (click)="showCreateMusic()" label="Add Music" icon="pi pi-plus"></p-button>
 </div>
@@ -33,7 +37,8 @@
                     tooltipPosition="bottom"></p-button>
             </td>
             <td>
-                <p-button icon="pi pi-trash" pTooltip="Delete Music"></p-button>
+                <p-button (click)="confirmDeleteMusic(music)" icon="pi pi-trash" pTooltip="Delete Music"
+                    styleClass="p-button-danger"></p-button>
             </td>
         </tr>
     </ng-template>
@@ -44,3 +49,7 @@
     [style]="{width: '50vw'}">
     <app-create-edit-music #createMusic></app-create-edit-music>
 </p-dialog>
+
+<p-confirmDialog header="Delete Confirmation" icon="pi pi-question-circle" [style]="{width: '50vw'}"
+    [baseZIndex]="10000" acceptButtonStyleClass="p-button-danger">
+</p-confirmDialog>

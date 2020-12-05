@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { LazyLoadEvent } from 'primeng/api';
+import { LazyLoadEvent, ConfirmationService, Message } from 'primeng/api';
 
 import { Music } from '../Model/Music';
 import { BehaviorSubjectService } from '../service/behavior-subject/behavior-subject.service';
@@ -10,7 +10,8 @@ import { UPDATE_MUSIC_LIST } from '../utils/Consts';
 @Component({
   selector: 'app-musics',
   templateUrl: './list-music.component.html',
-  styleUrls: ['./list-music.component.css']
+  styleUrls: ['./list-music.component.css'],
+  providers: [ConfirmationService]
 })
 export class ListMusicComponent implements OnInit, OnDestroy {
 
@@ -20,10 +21,12 @@ export class ListMusicComponent implements OnInit, OnDestroy {
   eventLazyLoad: LazyLoadEvent;
   loading: boolean;
   totalRecords: number;
+  msgs: Array<Message>;
   private subscriptions: Array<Subscription>;
 
   constructor(private musicService: MusicService,
-    private behaviorSubjectService: BehaviorSubjectService) { }
+    private behaviorSubjectService: BehaviorSubjectService,
+    private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
     this.displayCreateEditMusic = false;
@@ -64,6 +67,20 @@ export class ListMusicComponent implements OnInit, OnDestroy {
 
   clearMusicEdit(): void {
     this.musicEdit = null;
+  }
+
+  confirmDeleteMusic(music: Music): void {
+    this.confirmationService.confirm({
+      message: `Do you really want to delete this music: ${music.artist} - ${music.title}`,
+      accept: () => {
+        this.subscriptions.push(this.musicService.delete(music.id).subscribe(
+          () => {
+            this.msgs = [{ severity: 'success', summary: 'Success', detail: 'Music deleted successfully!' }];
+            this.loadMusics(this.eventLazyLoad);
+          },
+          () => this.msgs = [{ severity: 'error', summary: 'Error', detail: 'Error when deleted music!' }]));
+      }
+    });
   }
 
   ngOnDestroy(): void {

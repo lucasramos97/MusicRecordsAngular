@@ -129,21 +129,21 @@ export class CreateEditMusicComponent implements OnInit, OnDestroy {
 
   private editMusic(): void {
     this.subscriptions.push(this.musicService.edit(this.music).subscribe(
-      res => {
+      () => {
         this.msgs = [{ severity: 'success', summary: 'Success', detail: 'Music edited successfully!' }];
         this.behaviorSubjectService.sendMessage(UPDATE_MUSIC_LIST);
       },
-      error => this.msgs = [{ severity: 'error', summary: 'Error', detail: 'Error when edited music!' }]));
+      () => this.msgs = [{ severity: 'error', summary: 'Error', detail: 'Error when edited music!' }]));
   }
 
   private saveMusic(): void {
     this.subscriptions.push(this.musicService.save(this.music).subscribe(
-      res => {
+      () => {
         this.msgs = [{ severity: 'success', summary: 'Success', detail: 'Music added successfully!' }];
         this.behaviorSubjectService.sendMessage(UPDATE_MUSIC_LIST);
         this.music = new Music();
       },
-      error => this.msgs = [{ severity: 'error', summary: 'Error', detail: 'Error when adding music!' }]));
+      () => this.msgs = [{ severity: 'error', summary: 'Error', detail: 'Error when adding music!' }]));
   }
 
   ngOnDestroy(): void {

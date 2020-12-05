@@ -12,6 +12,7 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
 import { TooltipModule } from 'primeng/tooltip';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 import { ListMusicComponent } from './list-music-component/list-music.component';
 import { PipesModule } from '../pipes/pipes.module';
@@ -32,7 +33,8 @@ import { CreateEditMusicComponent } from './create-edit-music/create-edit-music.
     RadioButtonModule,
     MessagesModule,
     MessageModule,
-    TooltipModule
+    TooltipModule,
+    ConfirmDialogModule
   ],
   exports: [ListMusicComponent]
 })

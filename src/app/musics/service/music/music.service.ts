@@ -26,4 +26,8 @@ export class MusicService {
     return this.httpClient.put<Music>(this.urlBase, music);
   }
 
+  delete(musicId: number) {
+    return this.httpClient.delete(`${this.urlBase}/${musicId}`);
+  }
+
 }
