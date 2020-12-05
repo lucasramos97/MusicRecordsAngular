@@ -78,7 +78,7 @@ export class CreateEditMusicComponent implements OnInit, OnDestroy {
 
   saveOrEditMusic(): void {
     if (this.validFields()) {
-      this.music.duration = this.formatMusicDuration(this.music.duration);
+      this.music.duration = this.addHoursToMusicDuration(this.music.duration);
       if (this.music.id) {
         this.editMusic();
       } else {
@@ -123,7 +123,7 @@ export class CreateEditMusicComponent implements OnInit, OnDestroy {
     return capitalizeField;
   }
 
-  private formatMusicDuration(duration: string): string {
+  private addHoursToMusicDuration(duration: string): string {
     return `00:${duration}`;
   }
 

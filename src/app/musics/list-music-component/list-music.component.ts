@@ -36,10 +36,6 @@ export class ListMusicComponent implements OnInit, OnDestroy {
     }));
   }
 
-  showCreateMusic(): void {
-    this.displayCreateEditMusic = true;
-  }
-
   loadMusics(event: LazyLoadEvent): void {
 
     this.loading = true;
@@ -48,15 +44,22 @@ export class ListMusicComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.subscriptions.push(this.musicService.getAll(event.first / event.rows).subscribe(musics => {
         this.musics = musics.content;
+        this.musics.forEach(music => {
+          music.duration = music.duration.slice(3);
+        });
         this.totalRecords = musics.totalElements;
       }));
       this.loading = false;
     }, 1000);
   }
 
-  showEditMusic(musicEdit: Music): void {
+  showCreateMusic(): void {
     this.displayCreateEditMusic = true;
+  }
+
+  showEditMusic(musicEdit: Music): void {
     this.musicEdit = musicEdit;
+    this.displayCreateEditMusic = true;
   }
 
   clearMusicEdit(): void {
