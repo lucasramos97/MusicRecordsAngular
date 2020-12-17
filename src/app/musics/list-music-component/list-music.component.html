@@ -5,7 +5,8 @@
 </div>
 
 <div class="table-top-button">
-    <p-button (click)="showCreateMusic()" label="Add Music" icon="pi pi-plus"></p-button>
+    <p-button label="Add Music" (click)="showCreateMusic()" icon="pi pi-plus"></p-button>
+    <p-button label="Logout" (click)="logoutUser()" icon="pi pi-sign-out" iconPos="right"></p-button>
 </div>
 
 <p-table [value]="musics" [lazy]="true" (onLazyLoad)="loadMusics($event)" [paginator]="true" [rows]="5"

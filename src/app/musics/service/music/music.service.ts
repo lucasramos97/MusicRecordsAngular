@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { Music } from '../../Model/Music';
-import { MusicRequest } from '../../Model/MusicRequest';
+import { Music } from '../../model/Music';
+import { MusicRequest } from '../../model/MusicRequest';
+import { MessageResponse } from 'src/app/model/MessageResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -18,12 +19,12 @@ export class MusicService {
     return this.httpClient.get<MusicRequest>(`${this.urlBase}?page=${page}&size=5`);
   }
 
-  save(music: Music): Observable<Music> {
-    return this.httpClient.post<Music>(this.urlBase, music);
+  save(music: Music): Observable<MessageResponse> {
+    return this.httpClient.post<MessageResponse>(this.urlBase, music);
   }
 
-  edit(music: Music): Observable<Music> {
-    return this.httpClient.put<Music>(this.urlBase, music);
+  edit(music: Music): Observable<MessageResponse> {
+    return this.httpClient.put<MessageResponse>(this.urlBase, music);
   }
 
   delete(musicId: number) {

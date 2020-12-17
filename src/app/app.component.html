@@ -1,2 +1,3 @@
 
-<app-musics></app-musics>
+<app-login *ngIf="!authenticated"></app-login>
+<app-musics *ngIf="authenticated"></app-musics>

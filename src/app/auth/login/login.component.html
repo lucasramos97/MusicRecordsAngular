@@ -1,0 +1,67 @@
+<div class="container">
+
+    <div class="message">
+        <p-messages [(value)]="msgs"></p-messages>
+    </div>
+
+    <div class="box">
+
+        <h1 class="title">Login</h1>
+
+        <form>
+
+            <div class="card">
+
+                <div class="p-grid grid">
+                    <div class="p-col-12">
+                        <div class="p-fluid">
+                            <label for="email">E-Mail</label>
+                            <div class="p-field form-input">
+                                <input id="email" name="email" type="email" aria-describedby="email-help" pInputText
+                                    [(ngModel)]="user.email" [class]="requiredStyle.get('email')" />
+                            </div>
+                            <small id="email-help"
+                                [class]="requiredStyle.get('email')">{{requiredFields.get("email")}}</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-grid grid">
+                    <div class="p-col-12">
+                        <div class="p-fluid form-field">
+                            <label for="password">Password</label>
+                            <div class="p-field form-input">
+                                <input id="passwordLogin" name="password" type="password"
+                                    aria-describedby="password-help" [(ngModel)]="user.password" pInputText
+                                    [class]="requiredStyle.get('password')" />
+                            </div>
+                            <small id="password-help"
+                                [class]="requiredStyle.get('password')">{{requiredFields.get("password")}}</small>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="link">
+                <a href="#" (click)="showCreateUser()">Don't have an account yet?</a>
+            </div>
+
+            <div class="p-grid" style="margin-top: 10px;">
+                <div class="p-col-5">
+                    <div class="form-button button">
+                        <p-button [(disabled)]="loader" label="Login" (click)="loginUser()" icon="pi pi-sign-in"
+                            iconPos="right"></p-button>
+                    </div>
+                </div>
+                <div *ngIf="loader" class="loader" style="margin-top: 10px;"></div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<p-dialog header="Create User" [(visible)]="displayCreateUser" [modal]="true" appendTo="body" [baseZIndex]="10000"
+    [draggable]="false" [resizable]="false" (onShow)="createUser.showDialog()" [style]="{width: '35vw'}">
+    <app-create-user #createUser></app-create-user>
+</p-dialog>

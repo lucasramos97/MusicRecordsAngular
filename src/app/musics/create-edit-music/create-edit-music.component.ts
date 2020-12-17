@@ -1,25 +1,29 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Music } from '../Model/Music';
+import { Music } from '../model/Music';
 import { MusicService } from '../service/music/music.service';
 import { BehaviorSubjectService } from '../service/behavior-subject/behavior-subject.service'
 import { Message } from 'primeng/api';
-import { UPDATE_MUSIC_LIST } from '../utils/Consts';
+import { UPDATE_MUSIC_LIST } from 'src/app/utils/Consts';
+import { ComponentUtils } from 'src/app/utils/ComponentUtils';
+import { FormValidation } from 'src/app/form/FormValidation';
 
 @Component({
   selector: 'app-create-edit-music',
   templateUrl: './create-edit-music.component.html',
   styleUrls: ['./create-edit-music.component.css']
 })
-export class CreateEditMusicComponent implements OnInit, OnDestroy {
+export class CreateEditMusicComponent implements FormValidation, OnInit, OnDestroy {
 
   private readonly RED_COLOR = '#f44336';
   private readonly FIELDS_NOT_REQUIRED: Array<string> = ['viewsNumber', 'feat'];
 
   music: Music;
+  msgs: Array<Message>;
+  loader: boolean;
   requiredStyle: Map<string, string>;
   requiredFields: Map<string, string>;
-  msgs: Array<Message>;
+  private componentUtils: ComponentUtils;
   private subscriptions: Array<Subscription>;
 
   constructor(
@@ -29,51 +33,16 @@ export class CreateEditMusicComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.music = new Music();
+    this.loader = false;
     this.requiredStyle = new Map<string, string>();
     this.requiredFields = new Map<string, string>();
+    this.componentUtils = new ComponentUtils();
     this.subscriptions = new Array<Subscription>();
   }
 
   showDialog(musicEdit: Music): void {
     this.clearAllInputFieldsRequired();
     this.initMusic(musicEdit);
-  }
-
-  private clearAllInputFieldsRequired(): void {
-    for (let key of Object.keys(this.music)) {
-      this.clearInputFieldRequired(key);
-    }
-  }
-
-  private clearInputFieldRequired(field: string): void {
-    this.changeTextFieldRequired(field, '', '');
-    this.changeMaskFieldRequired(field, '');
-  }
-
-  private changeTextFieldRequired(field: string, value: string, cssClass: string): void {
-    this.requiredFields.set(field, value);
-    this.requiredStyle.set(field, cssClass);
-  }
-
-  private changeMaskFieldRequired(field: string, color: string): void {
-    if (field === 'launchDate') {
-      this.changeInputMaskBorderColor(0, color);
-    } else if (field === 'duration') {
-      this.changeInputMaskBorderColor(1, color);
-    }
-  }
-
-  private changeInputMaskBorderColor(index: number, color: string): void {
-    let inputMask = <HTMLInputElement>document.getElementsByClassName('p-inputmask p-inputtext p-component')[index];
-    inputMask.style.borderColor = color;
-  }
-
-  private initMusic(musicEdit: Music): void {
-    if (musicEdit) {
-      this.music = musicEdit;
-    } else {
-      this.music = new Music();
-    }
   }
 
   saveOrEditMusic(): void {
@@ -87,7 +56,44 @@ export class CreateEditMusicComponent implements OnInit, OnDestroy {
     }
   }
 
-  private validFields(): boolean {
+  private initMusic(musicEdit: Music): void {
+    if (musicEdit) {
+      this.music = musicEdit;
+    } else {
+      this.music = new Music();
+    }
+  }
+
+  private editMusic(): void {
+    this.loader = true;
+    this.subscriptions.push(this.musicService.edit(this.music).subscribe(
+      () => {
+        this.loader = false;
+        this.msgs = [{ severity: 'success', summary: 'Success', detail: 'Music edited successfully!' }];
+        this.behaviorSubjectService.sendMessage(UPDATE_MUSIC_LIST);
+      },
+      res => {
+        this.loader = false;
+        this.msgs = [{ severity: 'error', summary: 'Error', detail: res.error.message }];
+      }));
+  }
+
+  private saveMusic(): void {
+    this.loader = true;
+    this.subscriptions.push(this.musicService.save(this.music).subscribe(
+      () => {
+        this.loader = false;
+        this.msgs = [{ severity: 'success', summary: 'Success', detail: 'Music added successfully!' }];
+        this.behaviorSubjectService.sendMessage(UPDATE_MUSIC_LIST);
+        this.music = new Music();
+      },
+      res => {
+        this.loader = false;
+        this.msgs = [{ severity: 'error', summary: 'Error', detail: res.error.message }];
+      }));
+  }
+
+  validFields(): boolean {
     let valid: boolean = true;
 
     for (let [key, value] of Object.entries(this.music)) {
@@ -102,48 +108,43 @@ export class CreateEditMusicComponent implements OnInit, OnDestroy {
     return valid;
   }
 
-  private addInputFieldRequired(field: string): void {
-    this.changeTextFieldRequired(field, `${this.capitalizeField(field)} is required!`, 'p-invalid');
+  addInputFieldRequired(field: string): void {
+    let capitalizedField = this.componentUtils.capitalizeField(field);
+    this.changeTextFieldRequired(field, `${capitalizedField} is required!`, 'p-invalid');
     this.changeMaskFieldRequired(field, this.RED_COLOR);
   }
 
-  private capitalizeField(field: string): string {
-    let capitalizeField = '';
-    for (let i = 0; i < field.length; i++) {
-      if (i === 0) {
-        capitalizeField += field[i].toUpperCase();
-        continue;
-      }
-      if (field[i].toUpperCase() === field[i]) {
-        capitalizeField += ` ${field[i]}`;
-      } else {
-        capitalizeField += field[i];
-      }
+  clearInputFieldRequired(field: string): void {
+    this.changeTextFieldRequired(field, '', '');
+    this.changeMaskFieldRequired(field, '');
+  }
+
+  changeTextFieldRequired(field: string, value: string, cssClass: string): void {
+    this.requiredFields.set(field, value);
+    this.requiredStyle.set(field, cssClass);
+  }
+
+  clearAllInputFieldsRequired(): void {
+    for (let key of Object.keys(this.music)) {
+      this.clearInputFieldRequired(key);
     }
-    return capitalizeField;
   }
 
   private addHoursToMusicDuration(duration: string): string {
     return `00:${duration}`;
   }
 
-  private editMusic(): void {
-    this.subscriptions.push(this.musicService.edit(this.music).subscribe(
-      () => {
-        this.msgs = [{ severity: 'success', summary: 'Success', detail: 'Music edited successfully!' }];
-        this.behaviorSubjectService.sendMessage(UPDATE_MUSIC_LIST);
-      },
-      () => this.msgs = [{ severity: 'error', summary: 'Error', detail: 'Error when edited music!' }]));
+  private changeMaskFieldRequired(field: string, color: string): void {
+    if (field === 'launchDate') {
+      this.changeInputMaskBorderColor(0, color);
+    } else if (field === 'duration') {
+      this.changeInputMaskBorderColor(1, color);
+    }
   }
 
-  private saveMusic(): void {
-    this.subscriptions.push(this.musicService.save(this.music).subscribe(
-      () => {
-        this.msgs = [{ severity: 'success', summary: 'Success', detail: 'Music added successfully!' }];
-        this.behaviorSubjectService.sendMessage(UPDATE_MUSIC_LIST);
-        this.music = new Music();
-      },
-      () => this.msgs = [{ severity: 'error', summary: 'Error', detail: 'Error when adding music!' }]));
+  private changeInputMaskBorderColor(index: number, color: string): void {
+    let inputMask = <HTMLInputElement>document.getElementsByClassName('p-inputmask p-inputtext p-component')[index];
+    inputMask.style.borderColor = color;
   }
 
   ngOnDestroy(): void {

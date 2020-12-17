@@ -1,10 +1,9 @@
 
-.title {
-    font-family: sans-serif;
-    text-align: center;
-}
-
 .table-top-button {
     margin-bottom: 5px;
     text-align: right;
+}
+
+.table-top-button p-button {
+    margin-right: 5px;
 }

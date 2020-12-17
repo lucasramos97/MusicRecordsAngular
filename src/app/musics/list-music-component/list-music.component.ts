@@ -3,17 +3,19 @@ import { Subscription } from 'rxjs';
 
 import { LazyLoadEvent, ConfirmationService, Message } from 'primeng/api';
 
-import { Music } from '../Model/Music';
+import { Music } from '../model/Music';
 import { BehaviorSubjectService } from '../service/behavior-subject/behavior-subject.service';
 import { MusicService } from '../service/music/music.service';
-import { UPDATE_MUSIC_LIST } from '../utils/Consts';
+import { UPDATE_MUSIC_LIST, LOGOUT } from '../../utils/Consts';
+import { ExchangeMessages } from 'src/app/exchange-messages/ExchangeMessages';
+import { AuthService } from 'src/app/auth/service/auth.service';
 @Component({
   selector: 'app-musics',
   templateUrl: './list-music.component.html',
   styleUrls: ['./list-music.component.css'],
   providers: [ConfirmationService]
 })
-export class ListMusicComponent implements OnInit, OnDestroy {
+export class ListMusicComponent implements ExchangeMessages, OnInit, OnDestroy {
 
   musics: Array<Music>;
   displayCreateEditMusic: boolean;
@@ -24,14 +26,21 @@ export class ListMusicComponent implements OnInit, OnDestroy {
   msgs: Array<Message>;
   private subscriptions: Array<Subscription>;
 
-  constructor(private musicService: MusicService,
+  constructor(
+    private musicService: MusicService,
+    private authService: AuthService,
     private behaviorSubjectService: BehaviorSubjectService,
-    private confirmationService: ConfirmationService) { }
+    private confirmationService: ConfirmationService
+  ) { }
 
   ngOnInit(): void {
     this.displayCreateEditMusic = false;
     this.loading = true;
     this.subscriptions = new Array<Subscription>();
+    this.listenMessages();
+  }
+
+  listenMessages(): void {
     this.subscriptions.push(this.behaviorSubjectService.listenMessage().subscribe(message => {
       if (message === UPDATE_MUSIC_LIST) {
         this.loadMusics(this.eventLazyLoad);
@@ -81,6 +90,11 @@ export class ListMusicComponent implements OnInit, OnDestroy {
           () => this.msgs = [{ severity: 'error', summary: 'Error', detail: 'Error when deleted music!' }]));
       }
     });
+  }
+
+  logoutUser(): void {
+    this.authService.logout();
+    this.behaviorSubjectService.sendMessage(LOGOUT);
   }
 
   ngOnDestroy(): void {

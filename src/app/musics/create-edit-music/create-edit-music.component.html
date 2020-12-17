@@ -1,8 +1,8 @@
 <form>
 
-    <p-messages [(value)]="msgs"></p-messages>
-
     <div class="card">
+
+        <p-messages [(value)]="msgs"></p-messages>
 
         <div class="p-grid">
             <div class="p-col-12">
@@ -90,8 +90,14 @@
 
     </div>
 
-    <div class="form-button">
-        <p-button label="Save" (click)="saveOrEditMusic()" styleClass="p-button-success" icon="pi pi-save"></p-button>
+    <div class="p-grid">
+        <div class="p-col-2">
+            <div class="form-button">
+                <p-button [(disabled)]="loader" label="Save" (click)="saveOrEditMusic()" styleClass="p-button-success"
+                    icon="pi pi-save"></p-button>
+            </div>
+        </div>
+        <div *ngIf="loader" class="loader" style="margin: 30px 0px 0px 20px;"></div>
     </div>
 
 </form>

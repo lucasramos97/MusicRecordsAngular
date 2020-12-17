@@ -1,0 +1,81 @@
+<form>
+
+    <div class="card">
+
+        <p-messages [(value)]="msgs"></p-messages>
+
+        <div class="p-grid">
+            <div class="p-col-12">
+                <div class="p-fluid">
+                    <label for="name">Name</label>
+                    <div class="p-field form-input">
+                        <input id="name" name="name" type="text" aria-describedby="name-help" [(ngModel)]="user.name"
+                            pInputText [class]="requiredStyle.get('name')" />
+                    </div>
+                    <small id="name-help" [class]="requiredStyle.get('name')">{{requiredFields.get("name")}}</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-grid">
+            <div class="p-col-12">
+                <div class="p-fluid">
+                    <label for="email">E-Mail</label>
+                    <div class="p-field form-input">
+                        <input id="email" name="email" type="email" email=true aria-describedby="email-help"
+                            [(ngModel)]="user.email" pInputText [class]="requiredStyle.get('email')" />
+                    </div>
+                    <small id="email-help" [class]="requiredStyle.get('email')">{{requiredFields.get("email")}}</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-grid">
+            <div class="p-col-12">
+                <div class="p-fluid">
+                    <label for="password">Password</label>
+                    <div class="p-field form-input">
+                        <input id="passwordCreate" name="password" type="password" aria-describedby="password-help"
+                            [(ngModel)]="user.password" pInputText [class]="requiredStyle.get('password')" />
+                    </div>
+                    <small id="password-help"
+                        [class]="requiredStyle.get('password')">{{requiredFields.get("password")}}</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-grid">
+            <div class="p-col-12">
+                <div class="p-fluid">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <div class="p-field form-input">
+                        <input id="confirmPassword" name="confirmPassword" type="password"
+                            aria-describedby="confirmPassword-help" [(ngModel)]="confirmPassword" pInputText
+                            [class]="requiredStyle.get('confirmPassword')" />
+                    </div>
+                    <small id="confirmPassword-help"
+                        [class]="requiredStyle.get('confirmPassword')">{{requiredFields.get("confirmPassword")}}</small>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="p-grid">
+        <div class="p-col-5">
+            <div class="form-button">
+                <p-button [(disabled)]="loader" label="Create User" (click)="createUser()" styleClass="p-button-success"
+                    icon="pi pi-save">
+                </p-button>
+            </div>
+        </div>
+        <div class="p-col-3" style="margin-top: 2px;">
+            <div *ngIf="loader" class="loader"></div>
+        </div>
+        <div class="p-field-checkbox field-checkbox">
+            <p-checkbox label="See Passwords" (onChange)="seePasswords($event.checked)" checkboxIcon="pi pi-eye">
+            </p-checkbox>
+        </div>
+    </div>
+
+</form>
