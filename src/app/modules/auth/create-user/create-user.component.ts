@@ -1,14 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
-
 import { Message } from 'primeng/api';
-
-import { User } from '../model/User';
-import { AuthService } from '../service/auth.service';
-import { FormValidation } from 'src/app/form/FormValidation';
-import { BehaviorSubjectService } from 'src/app/musics/service/behavior-subject/behavior-subject.service';
+import { Subscription } from 'rxjs';
+import { FormValidation } from 'src/app/interfaces/FormValidation';
+import { BehaviorSubjectService } from 'src/app/modules/musics/service/behavior-subject/behavior-subject.service';
 import { ComponentUtils } from 'src/app/utils/ComponentUtils';
 import { USER_CREATED_SUCCESSFULLY } from 'src/app/utils/Consts';
+import { User } from '../model/User';
+import { AuthService } from '../service/auth.service';
 
 @Component({
   selector: 'app-create-user',
@@ -27,7 +25,7 @@ export class CreateUserComponent implements FormValidation, OnInit, OnDestroy {
   private subscriptions: Array<Subscription>;
 
   constructor(
-    private authService: AuthService, 
+    private authService: AuthService,
     private behaviorSubjectService: BehaviorSubjectService
   ) { }
 

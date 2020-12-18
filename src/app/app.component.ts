@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { AuthService } from './auth/service/auth.service';
-import { ExchangeMessages } from './exchange-messages/ExchangeMessages';
-import { BehaviorSubjectService } from './musics/service/behavior-subject/behavior-subject.service';
+import { ExchangeMessages } from './interfaces/ExchangeMessages';
+import { AuthService } from './modules/auth/service/auth.service';
+import { BehaviorSubjectService } from './modules/musics/service/behavior-subject/behavior-subject.service';
 import { AUTHENTICATED_ERROR, LOGOUT, SUCCESSFULLY_AUTHENTICATED } from './utils/Consts';
 
 @Component({

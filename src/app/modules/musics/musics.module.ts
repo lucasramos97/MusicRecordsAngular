@@ -1,22 +1,20 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
-import { TableModule } from 'primeng/table';
-import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { DialogModule } from 'primeng/dialog';
 import { InputMaskModule } from 'primeng/inputmask';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { RadioButtonModule } from 'primeng/radiobutton';
-import { MessagesModule } from 'primeng/messages';
+import { InputTextModule } from 'primeng/inputtext';
 import { MessageModule } from 'primeng/message';
+import { MessagesModule } from 'primeng/messages';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-
-import { ListMusicComponent } from './list-music-component/list-music.component';
 import { PipesModule } from '../pipes/pipes.module';
 import { CreateEditMusicComponent } from './create-edit-music/create-edit-music.component';
+import { ListMusicComponent } from './list-music-component/list-music.component';
 
 @NgModule({
   declarations: [ListMusicComponent, CreateEditMusicComponent],

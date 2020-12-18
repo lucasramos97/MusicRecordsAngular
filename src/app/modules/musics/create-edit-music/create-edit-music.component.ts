@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { Music } from '../model/Music';
-import { MusicService } from '../service/music/music.service';
-import { BehaviorSubjectService } from '../service/behavior-subject/behavior-subject.service'
 import { Message } from 'primeng/api';
-import { UPDATE_MUSIC_LIST } from 'src/app/utils/Consts';
+import { Subscription } from 'rxjs';
+import { FormValidation } from 'src/app/interfaces/FormValidation';
 import { ComponentUtils } from 'src/app/utils/ComponentUtils';
-import { FormValidation } from 'src/app/form/FormValidation';
+import { UPDATE_MUSIC_LIST } from 'src/app/utils/Consts';
+import { Music } from '../model/Music';
+import { BehaviorSubjectService } from '../service/behavior-subject/behavior-subject.service';
+import { MusicService } from '../service/music/music.service';
 
 @Component({
   selector: 'app-create-edit-music',

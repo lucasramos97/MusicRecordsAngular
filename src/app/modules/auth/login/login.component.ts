@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Message } from 'primeng/api';
 import { Subscription } from 'rxjs';
-import { ExchangeMessages } from 'src/app/exchange-messages/ExchangeMessages';
-import { FormValidation } from 'src/app/form/FormValidation';
-import { BehaviorSubjectService } from 'src/app/musics/service/behavior-subject/behavior-subject.service';
+import { ExchangeMessages } from 'src/app/interfaces/ExchangeMessages';
+import { FormValidation } from 'src/app/interfaces/FormValidation';
+import { BehaviorSubjectService } from 'src/app/modules/musics/service/behavior-subject/behavior-subject.service';
 import { ComponentUtils } from 'src/app/utils/ComponentUtils';
 import { AUTHENTICATED_ERROR, SUCCESSFULLY_AUTHENTICATED, USER_CREATED_SUCCESSFULLY } from 'src/app/utils/Consts';
 import { User } from '../model/User';
@@ -50,8 +50,13 @@ export class LoginComponent implements FormValidation, ExchangeMessages, OnInit,
         this.msgs = [{ severity: 'success', summary: 'Success', detail: 'User created successfully!' }];
       }
       if (message.startsWith(AUTHENTICATED_ERROR)) {
-        this.authService.logout();
-        this.msgs = [{ severity: 'error', summary: 'Error', detail: message.substr(AUTHENTICATED_ERROR.length) }];
+        let errorMessage = message.substr(AUTHENTICATED_ERROR.length);
+        if (errorMessage !== 'undefined') {
+          this.authService.logout();
+          this.msgs = [{ severity: 'error', summary: 'Error', detail: errorMessage }];
+        } else {
+          this.msgs = [{ severity: 'error', summary: 'Error', detail: 'Server not reached!' }];
+        }
       }
     }));
   }
