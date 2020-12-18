@@ -1,14 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
-
 import { Message } from 'primeng/api';
-
-import { User } from '../model/User';
-import { BehaviorSubjectService } from 'src/app/musics/service/behavior-subject/behavior-subject.service';
-import { SUCCESSFULLY_AUTHENTICATED, USER_CREATED_SUCCESSFULLY, AUTHENTICATED_ERROR } from 'src/app/utils/Consts';
-import { ComponentUtils } from 'src/app/utils/ComponentUtils';
-import { FormValidation } from 'src/app/form/FormValidation';
+import { Subscription } from 'rxjs';
 import { ExchangeMessages } from 'src/app/exchange-messages/ExchangeMessages';
+import { FormValidation } from 'src/app/form/FormValidation';
+import { BehaviorSubjectService } from 'src/app/musics/service/behavior-subject/behavior-subject.service';
+import { ComponentUtils } from 'src/app/utils/ComponentUtils';
+import { AUTHENTICATED_ERROR, SUCCESSFULLY_AUTHENTICATED, USER_CREATED_SUCCESSFULLY } from 'src/app/utils/Consts';
+import { User } from '../model/User';
 import { AuthService } from '../service/auth.service';
 
 @Component({
@@ -30,7 +28,7 @@ export class LoginComponent implements FormValidation, ExchangeMessages, OnInit,
   private subscriptions: Array<Subscription>;
 
   constructor(
-    private authService: AuthService, 
+    private authService: AuthService,
     private behaviorSubjectService: BehaviorSubjectService
   ) { }
 
@@ -61,15 +59,14 @@ export class LoginComponent implements FormValidation, ExchangeMessages, OnInit,
   loginUser(): void {
     if (this.validFields()) {
       this.loader = true;
-      console.log(this.authService.getToken());
       this.subscriptions.push(this.authService.login(this.user).subscribe(
         res => {
           this.loader = false;
+          this.authService.setUserEmail(this.user.email);
           this.authService.setToken(res.message);
           this.behaviorSubjectService.sendMessage(SUCCESSFULLY_AUTHENTICATED);
         },
         res => {
-          console.log(res);
           this.loader = false;
           this.msgs = [{ severity: 'error', summary: 'Error', detail: res.error.message }];
         }
