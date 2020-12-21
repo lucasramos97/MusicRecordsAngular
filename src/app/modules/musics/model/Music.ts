@@ -2,7 +2,7 @@ export class Music {
     id: number;
     title: string;
     artist: string;
-    launchDate: Date;
+    launchDate: string;
     duration: string;
     viewsNumber: number;
     feat: boolean;

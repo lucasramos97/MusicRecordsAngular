@@ -6,6 +6,9 @@
 
 <div class="table-top-button">
     <p-button label="Add Music" (click)="showCreateMusic()" icon="pi pi-plus"></p-button>
+    <p-button *ngIf="deletedMusicNumbers === 0" label="Deleted Musics" icon="pi pi-trash" disabled="true"></p-button>
+    <p-button *ngIf="deletedMusicNumbers > 0" label="Deleted Musics" (click)="showDeletedMusic()" icon="pi pi-trash" badge="1"
+        badgeClass="p-badge-danger"></p-button>
     <p-button label="Logout" (click)="logoutUser()" icon="pi pi-sign-out" iconPos="right"></p-button>
 </div>
 
@@ -29,7 +32,7 @@
             <td>{{rowIndex + 1}}</td>
             <td>{{music.title}}</td>
             <td>{{music.artist}}</td>
-            <td>{{music.launchDate | date: 'MMMM, dd yyyy'}}</td>
+            <td>{{music.launchDate | launchDate }}</td>
             <td>{{music.duration}} min</td>
             <td>{{music.viewsNumber | currency:'':'':'1.0-0'}}</td>
             <td>{{music.feat | musicFeat}}</td>
@@ -41,6 +44,21 @@
                 <p-button (click)="confirmDeleteMusic(music)" icon="pi pi-trash" pTooltip="Delete Music"
                     styleClass="p-button-danger"></p-button>
             </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage" >
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td [attr.colspan]="musics.length" style="font-weight: bold;">
+                No records found!
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
     </ng-template>
 </p-table>

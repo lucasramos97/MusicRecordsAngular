@@ -17,8 +17,8 @@
                         <div class="p-fluid">
                             <label for="email">E-Mail</label>
                             <div class="p-field form-input">
-                                <input id="email" name="email" type="email" aria-describedby="email-help" pInputText
-                                    [(ngModel)]="user.email" [class]="requiredStyle.get('email')" />
+                                <input id="email" name="email" type="email" email=true aria-describedby="email-help"
+                                    pInputText [(ngModel)]="user.email" [class]="requiredStyle.get('email')" />
                             </div>
                             <small id="email-help"
                                 [class]="requiredStyle.get('email')">{{requiredFields.get("email")}}</small>

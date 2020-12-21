@@ -14,10 +14,12 @@ import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
 import { PipesModule } from '../pipes/pipes.module';
 import { CreateEditMusicComponent } from './create-edit-music/create-edit-music.component';
-import { ListMusicComponent } from './list-music-component/list-music.component';
+import { DeletedMusicComponent } from './deleted-music/deleted-music.component';
+import { ListMusicComponent } from './list-music/list-music.component';
+import { MusicComponent } from './music/music.component';
 
 @NgModule({
-  declarations: [ListMusicComponent, CreateEditMusicComponent],
+  declarations: [ListMusicComponent, CreateEditMusicComponent, MusicComponent, DeletedMusicComponent],
   imports: [
     CommonModule,
     PipesModule,
@@ -34,6 +36,6 @@ import { ListMusicComponent } from './list-music-component/list-music.component'
     TooltipModule,
     ConfirmDialogModule
   ],
-  exports: [ListMusicComponent]
+  exports: [MusicComponent]
 })
 export class MusicsModule { }

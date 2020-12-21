@@ -6,6 +6,7 @@ import { FormValidation } from 'src/app/interfaces/FormValidation';
 import { BehaviorSubjectService } from 'src/app/modules/musics/service/behavior-subject/behavior-subject.service';
 import { ComponentUtils } from 'src/app/utils/ComponentUtils';
 import { AUTHENTICATED_ERROR, SUCCESSFULLY_AUTHENTICATED, USER_CREATED_SUCCESSFULLY } from 'src/app/utils/Consts';
+import { ValidatorUtils } from 'src/app/utils/ValidatorUtils';
 import { User } from '../model/User';
 import { AuthService } from '../service/auth.service';
 
@@ -24,6 +25,7 @@ export class LoginComponent implements FormValidation, ExchangeMessages, OnInit,
   loader: boolean;
   requiredStyle: Map<string, string>;
   requiredFields: Map<string, string>;
+  private validatorUtils: ValidatorUtils;
   private componentUtils: ComponentUtils;
   private subscriptions: Array<Subscription>;
 
@@ -38,6 +40,7 @@ export class LoginComponent implements FormValidation, ExchangeMessages, OnInit,
     this.loader = false;
     this.requiredStyle = new Map<string, string>();
     this.requiredFields = new Map<string, string>();
+    this.validatorUtils = new ValidatorUtils();
     this.componentUtils = new ComponentUtils();
     this.subscriptions = new Array<Subscription>();
     this.listenMessages();
@@ -80,7 +83,7 @@ export class LoginComponent implements FormValidation, ExchangeMessages, OnInit,
   }
 
   validFields(): boolean {
-    let valid: boolean = true;
+    let valid = true;
 
     for (let [key, value] of Object.entries(this.user)) {
       if (!value && this.FIELDS_NOT_REQUIRED.indexOf(key) === -1) {
@@ -89,6 +92,11 @@ export class LoginComponent implements FormValidation, ExchangeMessages, OnInit,
       } else {
         this.clearInputFieldRequired(key);
       }
+    }
+
+    if (valid && this.validatorUtils.isNotEmail(this.user.email)) {
+      this.msgs = [{ severity: 'error', summary: 'Error', detail: 'Valid E-Mail format is required!' }];
+      valid = false;
     }
 
     return valid;

@@ -1,10 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import { MessageResponse } from 'src/app/models/MessageResponse';
 import { Music } from '../../model/Music';
 import { MusicRequest } from '../../model/MusicRequest';
-import { MessageResponse } from 'src/app/model/MessageResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -27,8 +26,20 @@ export class MusicService {
     return this.httpClient.put<MessageResponse>(this.urlBase, music);
   }
 
-  delete(musicId: number) {
-    return this.httpClient.delete(`${this.urlBase}/${musicId}`);
+  delete(musicId: number): Observable<MessageResponse> {
+    return this.httpClient.delete<MessageResponse>(`${this.urlBase}/${musicId}`);
+  }
+
+  getAllDeletedMusic(page: number): Observable<MusicRequest> {
+    return this.httpClient.get<MusicRequest>(`${this.urlBase}/deleted?page=${page}&size=5`);
+  }
+
+  countDeletedMusics(): Observable<MessageResponse> {
+    return this.httpClient.get<MessageResponse>(`${this.urlBase}/deleted/count`);
+  }
+  
+  recoverDeletedMusics(musics: Array<Music>): Observable<MessageResponse> {
+    return this.httpClient.post<MessageResponse>(`${this.urlBase}/recover`, musics);
   }
 
 }

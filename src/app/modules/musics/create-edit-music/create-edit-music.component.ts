@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { FormValidation } from 'src/app/interfaces/FormValidation';
 import { ComponentUtils } from 'src/app/utils/ComponentUtils';
 import { UPDATE_MUSIC_LIST } from 'src/app/utils/Consts';
+import { ValidatorUtils } from 'src/app/utils/ValidatorUtils';
 import { Music } from '../model/Music';
 import { BehaviorSubjectService } from '../service/behavior-subject/behavior-subject.service';
 import { MusicService } from '../service/music/music.service';
@@ -23,6 +24,7 @@ export class CreateEditMusicComponent implements FormValidation, OnInit, OnDestr
   loader: boolean;
   requiredStyle: Map<string, string>;
   requiredFields: Map<string, string>;
+  private validatorUtils: ValidatorUtils;
   private componentUtils: ComponentUtils;
   private subscriptions: Array<Subscription>;
 
@@ -36,6 +38,7 @@ export class CreateEditMusicComponent implements FormValidation, OnInit, OnDestr
     this.loader = false;
     this.requiredStyle = new Map<string, string>();
     this.requiredFields = new Map<string, string>();
+    this.validatorUtils = new ValidatorUtils();
     this.componentUtils = new ComponentUtils();
     this.subscriptions = new Array<Subscription>();
   }
@@ -47,7 +50,6 @@ export class CreateEditMusicComponent implements FormValidation, OnInit, OnDestr
 
   saveOrEditMusic(): void {
     if (this.validFields()) {
-      this.music.duration = this.addHoursToMusicDuration(this.music.duration);
       if (this.music.id) {
         this.editMusic();
       } else {
@@ -94,7 +96,7 @@ export class CreateEditMusicComponent implements FormValidation, OnInit, OnDestr
   }
 
   validFields(): boolean {
-    let valid: boolean = true;
+    let valid = true;
 
     for (let [key, value] of Object.entries(this.music)) {
       if (!value && this.FIELDS_NOT_REQUIRED.indexOf(key) === -1) {
@@ -103,6 +105,11 @@ export class CreateEditMusicComponent implements FormValidation, OnInit, OnDestr
       } else {
         this.clearInputFieldRequired(key);
       }
+    }
+
+    if (valid && this.validatorUtils.isNotLaunchDateValid(this.music.launchDate)) {
+      this.msgs = [{ severity: 'error', summary: 'Error', detail: 'This Launch Date does not exist!' }];
+      valid = false;
     }
 
     return valid;
@@ -128,10 +135,6 @@ export class CreateEditMusicComponent implements FormValidation, OnInit, OnDestr
     for (let key of Object.keys(this.music)) {
       this.clearInputFieldRequired(key);
     }
-  }
-
-  private addHoursToMusicDuration(duration: string): string {
-    return `00:${duration}`;
   }
 
   private changeMaskFieldRequired(field: string, color: string): void {
