@@ -1,9 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ConfirmationService, LazyLoadEvent, Message } from 'primeng/api';
 import { Subscription } from 'rxjs';
-import { SHOW_LIST_MUSIC } from 'src/app/utils/Consts';
 import { Music } from '../model/Music';
-import { BehaviorSubjectService } from '../service/behavior-subject/behavior-subject.service';
 import { MusicService } from '../service/music/music.service';
 
 @Component({
@@ -24,7 +23,7 @@ export class DeletedMusicComponent implements OnInit, OnDestroy {
 
   constructor(
     private musicService: MusicService,
-    private behaviorSubjectService: BehaviorSubjectService,
+    private router: Router,
     private confirmationService: ConfirmationService
   ) { }
 
@@ -69,7 +68,7 @@ export class DeletedMusicComponent implements OnInit, OnDestroy {
   }
 
   comeBack(): void {
-    this.behaviorSubjectService.sendMessage(SHOW_LIST_MUSIC);
+    this.router.navigateByUrl('/musics');
   }
 
   ngOnDestroy(): void {

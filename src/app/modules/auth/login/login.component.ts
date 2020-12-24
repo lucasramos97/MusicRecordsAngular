@@ -1,11 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Message } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { ExchangeMessages } from 'src/app/interfaces/ExchangeMessages';
 import { FormValidation } from 'src/app/interfaces/FormValidation';
-import { BehaviorSubjectService } from 'src/app/modules/musics/service/behavior-subject/behavior-subject.service';
+import { BehaviorSubjectService } from 'src/app/services/behavior-subject/behavior-subject.service';
 import { ComponentUtils } from 'src/app/utils/ComponentUtils';
-import { AUTHENTICATED_ERROR, SUCCESSFULLY_AUTHENTICATED, USER_CREATED_SUCCESSFULLY } from 'src/app/utils/Consts';
+import { AUTHENTICATED_ERROR, USER_CREATED_SUCCESSFULLY } from 'src/app/utils/Consts';
 import { ValidatorUtils } from 'src/app/utils/ValidatorUtils';
 import { User } from '../model/User';
 import { AuthService } from '../service/auth.service';
@@ -31,7 +32,8 @@ export class LoginComponent implements FormValidation, ExchangeMessages, OnInit,
 
   constructor(
     private authService: AuthService,
-    private behaviorSubjectService: BehaviorSubjectService
+    private behaviorSubjectService: BehaviorSubjectService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -55,7 +57,6 @@ export class LoginComponent implements FormValidation, ExchangeMessages, OnInit,
       if (message.startsWith(AUTHENTICATED_ERROR)) {
         let errorMessage = message.substr(AUTHENTICATED_ERROR.length);
         if (errorMessage !== 'undefined') {
-          this.authService.logout();
           this.msgs = [{ severity: 'error', summary: 'Error', detail: errorMessage }];
         } else {
           this.msgs = [{ severity: 'error', summary: 'Error', detail: 'Server not reached!' }];
@@ -67,12 +68,15 @@ export class LoginComponent implements FormValidation, ExchangeMessages, OnInit,
   loginUser(): void {
     if (this.validFields()) {
       this.loader = true;
+      this.authService.logout();
       this.subscriptions.push(this.authService.login(this.user).subscribe(
         res => {
           this.loader = false;
           this.authService.setUserEmail(this.user.email);
           this.authService.setToken(res.message);
-          this.behaviorSubjectService.sendMessage(SUCCESSFULLY_AUTHENTICATED);
+          this.authService.setUsername(res.username);
+          this.authService.setExpiredToken(false);
+          this.router.navigateByUrl('/musics');
         },
         res => {
           this.loader = false;

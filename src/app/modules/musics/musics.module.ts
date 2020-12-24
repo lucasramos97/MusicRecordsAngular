@@ -16,10 +16,10 @@ import { PipesModule } from '../pipes/pipes.module';
 import { CreateEditMusicComponent } from './create-edit-music/create-edit-music.component';
 import { DeletedMusicComponent } from './deleted-music/deleted-music.component';
 import { ListMusicComponent } from './list-music/list-music.component';
-import { MusicComponent } from './music/music.component';
+import { MusicRoutingModule } from './music-routing.module';
 
 @NgModule({
-  declarations: [ListMusicComponent, CreateEditMusicComponent, MusicComponent, DeletedMusicComponent],
+  declarations: [ListMusicComponent, CreateEditMusicComponent, DeletedMusicComponent],
   imports: [
     CommonModule,
     PipesModule,
@@ -34,8 +34,8 @@ import { MusicComponent } from './music/music.component';
     MessagesModule,
     MessageModule,
     TooltipModule,
-    ConfirmDialogModule
-  ],
-  exports: [MusicComponent]
+    ConfirmDialogModule,
+    MusicRoutingModule
+  ]
 })
 export class MusicsModule { }

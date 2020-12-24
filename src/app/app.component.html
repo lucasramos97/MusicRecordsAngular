@@ -1,4 +1,5 @@
-
-<p *ngIf="authenticated" class="user-email">You: {{userEmail}}</p>
-<app-login *ngIf="!authenticated"></app-login>
-<app-music *ngIf="authenticated"></app-music>
+<div id="userContentId" *ngIf="authenticated" class="user-content">
+    <div>{{ username }}</div>
+    <div>{{ email }}</div>
+</div>
+<router-outlet></router-outlet>

@@ -11,6 +11,8 @@ export class AuthService {
 
   private readonly keyToken = 'token';
   private readonly keyUserEmail = 'userEmail';
+  private readonly keyUsername = 'username';
+  private readonly keyExpiredToken = 'expiredToken';
   private readonly urlBase = 'http://localhost:8080/auth';
 
   constructor(private httpClient: HttpClient) { }
@@ -51,9 +53,37 @@ export class AuthService {
     localStorage.setItem(this.keyUserEmail, userEmail);
   }
 
+  getUsername(): string {
+    let username = localStorage.getItem(this.keyUsername);
+    if (username) {
+      return username;
+    }
+    return '';
+  }
+
+  setUsername(username: string): void {
+    localStorage.setItem(this.keyUsername, username);
+  }
+
+  isExpiredToken(): boolean {
+    let valueExpiredToken = localStorage.getItem(this.keyExpiredToken);
+    return valueExpiredToken === '1' ? true : false;
+  }
+
+  setExpiredToken(expiredToken: boolean): void {
+    let valueExpiredToken = expiredToken ? '1' : '0';
+    localStorage.setItem(this.keyExpiredToken, valueExpiredToken);
+  }
+
+  isAuthenticated(): boolean {
+    return this.getToken() && !this.isExpiredToken();
+  }
+
   logout(): void {
-    this.setUserEmail('');
     this.setToken('');
+    this.setUsername('');
+    this.setUserEmail('');
+    this.setExpiredToken(true);
   }
 
 }

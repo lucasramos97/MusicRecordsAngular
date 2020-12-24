@@ -1,11 +1,12 @@
 import { AfterViewChecked, Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ConfirmationService, LazyLoadEvent, Message } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { ExchangeMessages } from 'src/app/interfaces/ExchangeMessages';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
-import { LOGOUT, SHOW_DELETED_MUSIC, UPDATE_MUSIC_LIST } from 'src/app/utils/Consts';
+import { UPDATE_MUSIC_LIST } from 'src/app/utils/Consts';
+import { BehaviorSubjectService } from '../../../services/behavior-subject/behavior-subject.service';
 import { Music } from '../model/Music';
-import { BehaviorSubjectService } from '../service/behavior-subject/behavior-subject.service';
 import { MusicService } from '../service/music/music.service';
 
 @Component({
@@ -30,6 +31,7 @@ export class ListMusicComponent implements ExchangeMessages, AfterViewChecked, O
     private musicService: MusicService,
     private authService: AuthService,
     private behaviorSubjectService: BehaviorSubjectService,
+    private router: Router,
     private confirmationService: ConfirmationService
   ) { }
 
@@ -98,7 +100,7 @@ export class ListMusicComponent implements ExchangeMessages, AfterViewChecked, O
 
   logoutUser(): void {
     this.authService.logout();
-    this.behaviorSubjectService.sendMessage(LOGOUT);
+    this.router.navigateByUrl('/login');
   }
 
   setButtonBadge(): void {
@@ -109,7 +111,7 @@ export class ListMusicComponent implements ExchangeMessages, AfterViewChecked, O
   }
 
   showDeletedMusic(): void {
-    this.behaviorSubjectService.sendMessage(SHOW_DELETED_MUSIC);
+    this.router.navigateByUrl('/musics/deleted');
   }
 
   private checkDeletedMusics(): void {

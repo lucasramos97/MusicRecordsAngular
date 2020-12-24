@@ -7,10 +7,12 @@ import { AppComponent } from './app.component';
 import { AuthInterceptor } from './interceptors/AuthInterceptor';
 import { AuthModule } from './modules/auth/auth.module';
 import { MusicsModule } from './modules/musics/musics.module';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,

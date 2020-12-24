@@ -1,4 +1,8 @@
 
-.user-email {
-    text-align: right;
+.user-content {
+    position: absolute;
+    right: 20px;
+    margin-top: 5px;
+    text-align: center;
+    font-weight: bold;
 }

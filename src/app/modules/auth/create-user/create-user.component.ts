@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Message } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { FormValidation } from 'src/app/interfaces/FormValidation';
-import { BehaviorSubjectService } from 'src/app/modules/musics/service/behavior-subject/behavior-subject.service';
+import { BehaviorSubjectService } from 'src/app/services/behavior-subject/behavior-subject.service';
 import { ComponentUtils } from 'src/app/utils/ComponentUtils';
 import { USER_CREATED_SUCCESSFULLY } from 'src/app/utils/Consts';
 import { ValidatorUtils } from 'src/app/utils/ValidatorUtils';

@@ -5,8 +5,8 @@ import { FormValidation } from 'src/app/interfaces/FormValidation';
 import { ComponentUtils } from 'src/app/utils/ComponentUtils';
 import { UPDATE_MUSIC_LIST } from 'src/app/utils/Consts';
 import { ValidatorUtils } from 'src/app/utils/ValidatorUtils';
+import { BehaviorSubjectService } from '../../../services/behavior-subject/behavior-subject.service';
 import { Music } from '../model/Music';
-import { BehaviorSubjectService } from '../service/behavior-subject/behavior-subject.service';
 import { MusicService } from '../service/music/music.service';
 
 @Component({
