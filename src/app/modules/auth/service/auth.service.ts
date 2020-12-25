@@ -25,10 +25,6 @@ export class AuthService {
     return this.httpClient.post<MessageResponse>(`${this.urlBase}/create`, user);
   }
 
-  test(): Observable<MessageResponse> {
-    return this.httpClient.get<MessageResponse>(`${this.urlBase}/test`);
-  }
-
   getToken(): string {
     let token = localStorage.getItem(this.keyToken);
     if (token) {

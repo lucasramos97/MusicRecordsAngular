@@ -4,7 +4,7 @@ import { ConfirmationService, LazyLoadEvent, Message } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { ExchangeMessages } from 'src/app/interfaces/ExchangeMessages';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
-import { UPDATE_MUSIC_LIST } from 'src/app/utils/Consts';
+import { AUTHENTICATED_ERROR, UPDATE_MUSIC_LIST } from 'src/app/utils/Consts';
 import { BehaviorSubjectService } from '../../../services/behavior-subject/behavior-subject.service';
 import { Music } from '../model/Music';
 import { MusicService } from '../service/music/music.service';
@@ -116,7 +116,12 @@ export class ListMusicComponent implements ExchangeMessages, AfterViewChecked, O
 
   private checkDeletedMusics(): void {
     this.subscriptions.push(this.musicService.countDeletedMusics().subscribe(
-      res => this.deletedMusicNumbers = Number.parseInt(res.message)
+      res => this.deletedMusicNumbers = Number.parseInt(res.message),
+      res => {
+        this.authService.setExpiredToken(true);
+        this.behaviorSubjectService.sendMessage(`${AUTHENTICATED_ERROR}${res.error.message}`);
+        this.router.navigateByUrl('/login');
+      }
     ));
   }
 
