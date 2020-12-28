@@ -23,11 +23,11 @@ export class MusicService {
   }
 
   edit(music: Music): Observable<MessageResponse> {
-    return this.httpClient.put<MessageResponse>(this.urlBase, music);
+    return this.httpClient.put<MessageResponse>(`${this.urlBase}/${music.id}`, music);
   }
 
-  delete(musicId: number): Observable<MessageResponse> {
-    return this.httpClient.delete<MessageResponse>(`${this.urlBase}/${musicId}`);
+  delete(id: number): Observable<MessageResponse> {
+    return this.httpClient.delete<MessageResponse>(`${this.urlBase}/${id}`);
   }
 
   getAllDeletedMusic(page: number): Observable<MusicRequest> {
