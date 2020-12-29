@@ -118,9 +118,11 @@ export class ListMusicComponent implements ExchangeMessages, AfterViewChecked, O
     this.subscriptions.push(this.musicService.countDeletedMusics().subscribe(
       res => this.deletedMusicNumbers = Number.parseInt(res.message),
       res => {
-        this.authService.setExpiredToken(true);
-        this.behaviorSubjectService.sendMessage(`${AUTHENTICATED_ERROR}${res.error.message}`);
-        this.router.navigateByUrl('/login');
+        if (res.status !== 0) {
+          this.authService.setExpiredToken(true);
+          this.behaviorSubjectService.sendMessage(`${AUTHENTICATED_ERROR}${res.error.message}`);
+          this.router.navigateByUrl('/login');
+        }
       }
     ));
   }

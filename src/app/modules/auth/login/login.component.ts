@@ -80,7 +80,12 @@ export class LoginComponent implements FormValidation, ExchangeMessages, OnInit,
         },
         res => {
           this.loader = false;
-          this.msgs = [{ severity: 'error', summary: 'Error', detail: res.error.message }];
+          let errorMessage = res.error.message
+          if (res.status !== 0) {
+            this.msgs = [{ severity: 'error', summary: 'Error', detail: errorMessage }];
+          } else {
+            this.msgs = [{ severity: 'error', summary: 'Error', detail: 'Server not reached!' }];
+          }
         }
       ));
     }
