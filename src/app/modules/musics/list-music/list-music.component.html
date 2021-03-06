@@ -38,11 +38,11 @@
             <td>{{music.feat | musicFeat}}</td>
             <td>
                 <p-button (click)="showEditMusic(music)" icon="pi pi-user-edit" pTooltip="Edit Music"
-                    tooltipPosition="bottom"></p-button>
+                    tooltipPosition="bottom" styleClass="p-button-rounded"></p-button>
             </td>
             <td>
                 <p-button (click)="confirmDeleteMusic(music)" icon="pi pi-trash" pTooltip="Delete Music"
-                    styleClass="p-button-danger"></p-button>
+                    styleClass="p-button-rounded p-button-danger"></p-button>
             </td>
         </tr>
     </ng-template>
