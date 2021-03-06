@@ -24,7 +24,7 @@
 }
 
 .loader {
-    border: 8px solid #f3f3f3; /* Light grey */
+    border: 8px solid #f3f3f3;
     border-top: 8px solid blue;
     border-right: 8px solid green;
     border-bottom: 8px solid red;
