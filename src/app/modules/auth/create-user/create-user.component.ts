@@ -50,20 +50,16 @@ export class CreateUserComponent implements FormValidation, OnInit, OnDestroy {
 
   createUser(): void {
     if (this.validFields()) {
-      if (this.confirmPassword === this.user.password) {
-        this.loader = true;
-        this.subscriptions.push(this.authService.create(this.user).subscribe(
-          () => {
-            this.loader = false;
-            this.behaviorSubjectService.sendMessage(USER_CREATED_SUCCESSFULLY);
-          },
-          res => {
-            this.loader = false;
-            this.msgs = [{ severity: 'error', summary: 'Error', detail: res.error.message }];
-          }));
-      } else {
-        this.msgs = [{ severity: 'error', summary: 'Error', detail: 'Passwords must be the same!' }];
-      }
+      this.loader = true;
+      this.subscriptions.push(this.authService.create(this.user).subscribe(
+        () => {
+          this.loader = false;
+          this.behaviorSubjectService.sendMessage(USER_CREATED_SUCCESSFULLY);
+        },
+        res => {
+          this.loader = false;
+          this.msgs = [{ severity: 'error', summary: 'Error', detail: res.error.message }];
+        }));
     }
   }
 
@@ -79,16 +75,21 @@ export class CreateUserComponent implements FormValidation, OnInit, OnDestroy {
       }
     }
 
-    if (valid && this.validatorUtils.isNotEmail(this.user.email)) {
-      this.msgs = [{ severity: 'error', summary: 'Error', detail: 'Valid E-Mail format is required!' }];
-      valid = false;
-    }
-
     if (valid && !this.confirmPassword) {
       this.addInputFieldRequired('confirmPassword');
       valid = false;
     } else {
       this.clearInputFieldRequired('confirmPassword');
+    }
+
+    if (valid && this.validatorUtils.isNotEmail(this.user.email)) {
+      this.msgs = [{ severity: 'error', summary: 'Error', detail: 'Valid E-Mail format is required!' }];
+      valid = false;
+    }
+
+    if (valid && this.confirmPassword !== this.user.password) {
+      this.msgs = [{ severity: 'error', summary: 'Error', detail: 'Passwords must be the same!' }];
+      valid = false;
     }
 
     return valid;
