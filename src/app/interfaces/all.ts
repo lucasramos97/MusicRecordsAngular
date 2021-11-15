@@ -12,3 +12,18 @@ export interface Authenticable {
 export interface User extends Login {
   username: string
 }
+
+export interface Music {
+  id: number,
+  title: string,
+  artist: string,
+  release_date: string,
+  duration: string,
+  number_views: number,
+  feat: boolean
+}
+
+export interface PagedMusics {
+  content: Music[],
+  total: number
+}

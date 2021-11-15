@@ -9,17 +9,24 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
+import { TableModule } from 'primeng/table';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/users/login/login.component';
 import { CreateUserComponent } from './components/users/create-user/create-user.component';
+import { MusicListComponent } from './components/musics/music-list/music-list.component';
+import { DurationPipe } from './pipes/duration.pipe';
+import { FeatPipe } from './pipes/feat.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    CreateUserComponent
+    CreateUserComponent,
+    MusicListComponent,
+    DurationPipe,
+    FeatPipe
   ],
   imports: [
     BrowserModule,
@@ -31,7 +38,8 @@ import { CreateUserComponent } from './components/users/create-user/create-user.
     InputTextModule,
     PasswordModule,
     ButtonModule,
-    DialogModule
+    DialogModule,
+    TableModule
   ],
   providers: [],
   bootstrap: [AppComponent]

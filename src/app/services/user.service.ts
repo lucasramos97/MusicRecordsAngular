@@ -11,7 +11,9 @@ export class UserService {
 
   private readonly URL = 'http://localhost:8080';
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(
+    private httpClient: HttpClient
+  ) { }
 
   public login(login: Login): Observable<Authenticable> {
     return this.httpClient.post<Authenticable>(`${this.URL}/login`, login);
