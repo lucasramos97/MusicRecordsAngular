@@ -1,35 +1,34 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { finalize, Subscription } from 'rxjs';
 
 import { MessageService } from 'primeng/api';
 
-import { Login } from 'src/app/interfaces/all';
-import { AuthenticationService } from 'src/app/services/authentication.service';
+import { User } from 'src/app/interfaces/all';
 import { UserService } from 'src/app/services/user.service';
 import StringUtils from 'src/app/utils/StringUtils';
 
 @Component({
-  templateUrl: './login.component.html',
+  selector: 'app-create-user',
+  templateUrl: './create-user.component.html',
   providers: [MessageService]
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class CreateUserComponent implements OnInit {
 
-  login: Login = {
+  @Output() onCreateSuccess = new EventEmitter<boolean>();
+
+  user: User = {
+    username: '',
     email: '',
     password: ''
   };
   submitted = false;
   spinLoader = false;
-  createUserDialog = false;
 
   private subscriptions: Array<Subscription> = new Array();
 
   constructor(
-    private authenticationService: AuthenticationService,
     private userService: UserService,
-    private messageService: MessageService,
-    private router: Router
+    private messageService: MessageService
   ) { }
 
   ngOnInit(): void {
@@ -39,19 +38,18 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
-  actionLogin() {
+  actionCreate() {
     if (this.validUser()) {
       this.spinLoader = true;
-      this.subscriptions.push(this.userService.login(this.login)
+      this.subscriptions.push(this.userService.create(this.user)
         .pipe(
           finalize(() => {
             this.submitted = false;
             this.spinLoader = false;
           }))
         .subscribe({
-          next: (authenticable) => {
-            this.authenticationService.setUser(authenticable);
-            this.router.navigateByUrl('/musics');
+          next: () => {
+            this.onCreateSuccess.emit(true);
           },
           error: (err) => this.messageService.add({
             severity: 'error',
@@ -64,21 +62,12 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
 
-  openCreateUser() {
-    this.createUserDialog = true;
-  }
-
-  onCreateSuccess() {
-    this.createUserDialog = false;
-    this.messageService.add({ severity: 'success', summary: 'Successfully', detail: 'User successfully create!' });
-  }
-
   private validUser() {
-    if (!this.login.email || !this.login.password) {
+    if (!this.user.username || !this.user.email || !this.user.password) {
       return false;
     }
 
-    if (!StringUtils.validEmail(this.login.email)) {
+    if (!StringUtils.validEmail(this.user.email)) {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'E-mail invalid!' });
       return false;
     }

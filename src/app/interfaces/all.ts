@@ -8,3 +8,7 @@ export interface Authenticable {
   username: string,
   email: string
 }
+
+export interface User extends Login {
+  username: string
+}
