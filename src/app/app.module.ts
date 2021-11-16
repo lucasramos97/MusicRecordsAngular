@@ -10,6 +10,9 @@ import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { TableModule } from 'primeng/table';
+import { InputMaskModule } from 'primeng/inputmask';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { RadioButtonModule } from 'primeng/radiobutton';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,6 +21,7 @@ import { CreateUserComponent } from './components/users/create-user/create-user.
 import { MusicListComponent } from './components/musics/music-list/music-list.component';
 import { DurationPipe } from './pipes/duration.pipe';
 import { FeatPipe } from './pipes/feat.pipe';
+import { MusicDialogComponent } from './components/musics/music-dialog/music-dialog.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +30,8 @@ import { FeatPipe } from './pipes/feat.pipe';
     CreateUserComponent,
     MusicListComponent,
     DurationPipe,
-    FeatPipe
+    FeatPipe,
+    MusicDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +44,10 @@ import { FeatPipe } from './pipes/feat.pipe';
     PasswordModule,
     ButtonModule,
     DialogModule,
-    TableModule
+    TableModule,
+    InputMaskModule,
+    InputNumberModule,
+    RadioButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

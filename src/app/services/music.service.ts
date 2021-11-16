@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { AuthenticationService } from './authentication.service';
-import { PagedMusics } from '../interfaces/all';
+import { Music, PagedMusics } from '../interfaces/all';
 
 @Injectable({
   providedIn: 'root'
@@ -26,4 +26,9 @@ export class MusicService {
   public getAll(page = 1, size = 5): Observable<PagedMusics> {
     return this.httpClient.get<PagedMusics>(`${this.URL}?page=${page}&size=${size}`, this.HTTP_OPTIONS);
   }
+
+  public save(music: Music): Observable<Music> {
+    return this.httpClient.post<Music>(this.URL, music, this.HTTP_OPTIONS);
+  }
+
 }

@@ -9,8 +9,7 @@ import { MusicService } from 'src/app/services/music.service';
 
 @Component({
   selector: 'app-music-list',
-  templateUrl: './music-list.component.html',
-  providers: [MessageService]
+  templateUrl: './music-list.component.html'
 })
 export class MusicListComponent implements OnInit, OnDestroy {
 
@@ -21,7 +20,11 @@ export class MusicListComponent implements OnInit, OnDestroy {
   totalRecords = 0;
   loading = true;
 
+  titleMusicDialog = '';
+  musicDialog = false;
+
   private subscriptions: Array<Subscription> = new Array();
+  private lastEvent: LazyLoadEvent = {};
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -41,6 +44,7 @@ export class MusicListComponent implements OnInit, OnDestroy {
   loadMusics(event: LazyLoadEvent) {
     this.loading = true;
     const page = event.first! / event.rows! + 1;
+    this.lastEvent = event;
 
     setTimeout(() => {
       this.subscriptions.push(this.musicService.getAll(page, event.rows)
@@ -53,13 +57,18 @@ export class MusicListComponent implements OnInit, OnDestroy {
             this.musics = pagedMusics.content;
             this.totalRecords = pagedMusics.total;
           },
-          error: (err) => this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: err.error.message
-          })
+          error: (err) => this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error.message })
         }));
     }, 1000);
+  }
+
+  openAdd() {
+    this.titleMusicDialog = 'Add Music';
+    this.musicDialog = true;
+  }
+
+  onSaveSuccess() {
+    this.loadMusics(this.lastEvent);
   }
 
 }

@@ -14,13 +14,13 @@ export interface User extends Login {
 }
 
 export interface Music {
-  id: number,
+  id?: number,
   title: string,
   artist: string,
   release_date: string,
   duration: string,
-  number_views: number,
-  feat: boolean
+  number_views?: number,
+  feat?: boolean
 }
 
 export interface PagedMusics {

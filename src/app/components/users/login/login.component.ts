@@ -7,11 +7,11 @@ import { MessageService } from 'primeng/api';
 import { Login } from 'src/app/interfaces/all';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { UserService } from 'src/app/services/user.service';
+import Messages from 'src/app/utils/Messages';
 import StringUtils from 'src/app/utils/StringUtils';
 
 @Component({
-  templateUrl: './login.component.html',
-  providers: [MessageService]
+  templateUrl: './login.component.html'
 })
 export class LoginComponent implements OnInit, OnDestroy {
 
@@ -53,11 +53,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.authenticationService.setUser(authenticable);
             this.router.navigateByUrl('/musics');
           },
-          error: (err) => this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: err.error.message
-          })
+          error: (err) => this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error.message })
         }));
     } else {
       this.submitted = true;
@@ -70,7 +66,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   onCreateSuccess() {
     this.createUserDialog = false;
-    this.messageService.add({ severity: 'success', summary: 'Successfully', detail: 'User successfully create!' });
+    this.messageService.add({ severity: 'success', summary: 'Successfully', detail: Messages.USER_SUCCESSFULLY_CREATE });
   }
 
   private validUser() {
@@ -79,7 +75,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     if (!StringUtils.validEmail(this.login.email)) {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'E-mail invalid!' });
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: Messages.EMAIL_INVALID });
       return false;
     }
 

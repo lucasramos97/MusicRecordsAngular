@@ -5,12 +5,12 @@ import { MessageService } from 'primeng/api';
 
 import { User } from 'src/app/interfaces/all';
 import { UserService } from 'src/app/services/user.service';
+import Messages from 'src/app/utils/Messages';
 import StringUtils from 'src/app/utils/StringUtils';
 
 @Component({
   selector: 'app-create-user',
-  templateUrl: './create-user.component.html',
-  providers: [MessageService]
+  templateUrl: './create-user.component.html'
 })
 export class CreateUserComponent implements OnInit {
 
@@ -48,14 +48,8 @@ export class CreateUserComponent implements OnInit {
             this.spinLoader = false;
           }))
         .subscribe({
-          next: () => {
-            this.onCreateSuccess.emit(true);
-          },
-          error: (err) => this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: err.error.message
-          })
+          next: () => this.onCreateSuccess.emit(true),
+          error: (err) => this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error.message })
         }));
     } else {
       this.submitted = true;
@@ -68,7 +62,7 @@ export class CreateUserComponent implements OnInit {
     }
 
     if (!StringUtils.validEmail(this.user.email)) {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'E-mail invalid!' });
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: Messages.EMAIL_INVALID });
       return false;
     }
 
