@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { finalize, Subscription } from 'rxjs';
 
@@ -13,7 +13,7 @@ import StringUtils from 'src/app/utils/StringUtils';
   selector: 'app-create-user',
   templateUrl: './create-user.component.html'
 })
-export class CreateUserComponent implements OnInit {
+export class CreateUserComponent implements OnInit, OnDestroy {
 
   @Output() onCreateSuccess = new EventEmitter<boolean>();
 

@@ -27,6 +27,9 @@ export class MusicListComponent implements OnInit, OnDestroy {
   musicDialog = false;
   music = MusicFactory.createDefaultMusic();
 
+  deleteMusicDialog = false;
+  deleteMusic = MusicFactory.createDefaultMusic();
+
   sessionExpiredDialog = false;
 
   private subscriptions: Array<Subscription> = new Array();
@@ -90,8 +93,18 @@ export class MusicListComponent implements OnInit, OnDestroy {
     this.musicDialog = true;
   }
 
-  onSaveSuccess() {
+  onMusicDialogSuccess() {
     this.loadMusics(this.lastEvent);
+  }
+
+  openDelete(music: Music) {
+    this.deleteMusic = music;
+    this.deleteMusicDialog = true;
+  }
+
+  onDeleteMusicSuccess() {
+    this.loadMusics(this.lastEvent);
+    this.deleteMusicDialog = false;
   }
 
   onHideSessionExpiredDialog() {

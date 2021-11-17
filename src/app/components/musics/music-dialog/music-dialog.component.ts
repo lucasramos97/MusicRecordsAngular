@@ -16,7 +16,7 @@ import DateUtils from 'src/app/utils/DateUtils';
 export class MusicDialogComponent implements OnInit, OnDestroy {
 
   @Input() music = MusicFactory.createDefaultMusic();
-  @Output() onSaveSuccess = new EventEmitter<boolean>();
+  @Output() onSuccess = new EventEmitter<boolean>();
 
   submitted = false;
   spinLoader = false;
@@ -87,7 +87,7 @@ export class MusicDialogComponent implements OnInit, OnDestroy {
         next: () => {
           this.messageService.add({ severity: 'success', summary: 'Successfully', detail: Messages.MUSIC_SUCCESSFULLY_ADDED });
           this.music = MusicFactory.createDefaultMusic();
-          this.onSaveSuccess.emit(true);
+          this.onSuccess.emit(true);
         },
         error: (err: HttpErrorResponse) => this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error.message })
       })
@@ -105,7 +105,7 @@ export class MusicDialogComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () => {
           this.messageService.add({ severity: 'success', summary: 'Successfully', detail: Messages.MUSIC_SUCCESSFULLY_EDITED });
-          this.onSaveSuccess.emit(true);
+          this.onSuccess.emit(true);
         },
         error: (err: HttpErrorResponse) => this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error.message })
       })
