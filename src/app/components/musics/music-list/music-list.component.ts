@@ -5,19 +5,16 @@ import { finalize, Subscription } from 'rxjs';
 
 import { LazyLoadEvent, MessageService } from 'primeng/api';
 
-import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Music } from 'src/app/interfaces/all';
 import { MusicService } from 'src/app/services/music.service';
 import MusicFactory from 'src/app/utils/MusicFactory';
+import NeedAuthenticated from '../../base/NeedAuthenticated';
 
 @Component({
   selector: 'app-music-list',
   templateUrl: './music-list.component.html'
 })
-export class MusicListComponent implements OnInit, OnDestroy {
-
-  username: string | null = '';
-  email: string | null = '';
+export class MusicListComponent extends NeedAuthenticated implements OnInit, OnDestroy {
 
   musics: Music[] = [];
   totalRecords = 0;
@@ -32,21 +29,18 @@ export class MusicListComponent implements OnInit, OnDestroy {
 
   countDeletedMusics = 0;
 
-  sessionExpiredDialog = false;
-
   private subscriptions: Array<Subscription> = new Array();
   private lastEvent: LazyLoadEvent = {};
 
   constructor(
-    private authenticationService: AuthenticationService,
     private musicService: MusicService,
     private messageService: MessageService,
     private router: Router
-  ) { }
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
-    this.username = this.authenticationService.getUsername();
-    this.email = this.authenticationService.getEmail();
     this.loadCountDeletedMusics();
   }
 
@@ -71,8 +65,7 @@ export class MusicListComponent implements OnInit, OnDestroy {
             this.totalRecords = pagedMusics.total;
           },
           error: (err: HttpErrorResponse) => {
-            if (err.status === 401 && !this.sessionExpiredDialog) {
-              this.handlerSessionExpired();
+            if (this.handlerSessionExpired(err)) {
               return;
             }
 
@@ -115,8 +108,7 @@ export class MusicListComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (total) => this.countDeletedMusics = total,
         error: (err: HttpErrorResponse) => {
-          if (err.status === 401 && !this.sessionExpiredDialog) {
-            this.handlerSessionExpired();
+          if (this.handlerSessionExpired(err)) {
             return;
           }
 
@@ -126,14 +118,8 @@ export class MusicListComponent implements OnInit, OnDestroy {
     );
   }
 
-  onHideSessionExpiredDialog() {
-    this.sessionExpiredDialog = false;
-    this.router.navigateByUrl('/login');
-  }
-
-  private handlerSessionExpired() {
-    this.authenticationService.logout();
-    this.sessionExpiredDialog = true;
+  goToDeletedMusicList() {
+    this.router.navigateByUrl('/musics/deleted');
   }
 
 }

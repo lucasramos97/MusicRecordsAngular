@@ -1,15 +1,13 @@
-<div class="user">
-  <span class="user-name">{{ username }}</span>
-  <span>{{ email }}</span>
-</div>
+<app-logged-user></app-logged-user>
 
 <h1>Music List</h1>
 
 <div class="table-top-buttons">
   <p-button label="Add" (click)="openAdd()" class="p-button-primary" icon="pi pi-plus">
   </p-button>
-  <p-button *ngIf="countDeletedMusics > 0" label="Deleted Music List" [badge]="countDeletedMusics.toString()"
-    badgeClass="p-badge-danger" styleClass="p-button-primary" icon="pi pi-trash">
+  <p-button *ngIf="countDeletedMusics > 0" label="Deleted Music List" (click)="goToDeletedMusicList()"
+    [badge]="countDeletedMusics.toString()" badgeClass="p-badge-danger" styleClass="p-button-primary"
+    icon="pi pi-trash">
   </p-button>
 </div>
 
@@ -58,7 +56,4 @@
   <app-delete-music [music]="deleteMusic" (onSuccess)="onDeleteMusicSuccess()"></app-delete-music>
 </p-dialog>
 
-<p-dialog header="Info" [(visible)]="sessionExpiredDialog" (onHide)="onHideSessionExpiredDialog()" [modal]="true"
-  [style]="{width: '450px'}">
-  <app-session-expired></app-session-expired>
-</p-dialog>
+<app-session-expired [(visible)]="sessionExpiredDialog"></app-session-expired>

@@ -25,6 +25,8 @@ import { FeatPipe } from './pipes/feat.pipe';
 import { MusicDialogComponent } from './components/musics/music-dialog/music-dialog.component';
 import { SessionExpiredComponent } from './components/utils/session-expired/session-expired.component';
 import { DeleteMusicComponent } from './components/musics/delete-music/delete-music.component';
+import { DeletedMusicListComponent } from './components/musics/deleted-music-list/deleted-music-list.component';
+import { LoggedUserComponent } from './components/utils/logged-user/logged-user.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import { DeleteMusicComponent } from './components/musics/delete-music/delete-mu
     FeatPipe,
     MusicDialogComponent,
     SessionExpiredComponent,
-    DeleteMusicComponent
+    DeleteMusicComponent,
+    DeletedMusicListComponent,
+    LoggedUserComponent
   ],
   imports: [
     BrowserModule,

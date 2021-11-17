@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-session-expired',
@@ -6,9 +9,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SessionExpiredComponent implements OnInit {
 
-  constructor() { }
+  @Input() visible = false;
+  @Output() visibleChange = new EventEmitter<boolean>();
+
+  constructor(
+    private authenticationService: AuthenticationService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
+  }
+
+  onShow() {
+    this.authenticationService.logout();
+  }
+
+  onHide() {
+    this.visible = false;
+    this.router.navigateByUrl('/login');
   }
 
 }

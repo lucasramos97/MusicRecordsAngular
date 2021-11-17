@@ -1,0 +1,35 @@
+<app-logged-user></app-logged-user>
+
+<h1>Deleted Music List</h1>
+
+<div class="table-top-buttons">
+  <p-button label="Music List" (click)="goToMusicList()" class="p-button-primary" icon="pi pi-arrow-right">
+  </p-button>
+</div>
+
+<p-table [value]="musics" [lazy]="true" (onLazyLoad)="loadMusics($event)" responsiveLayout="scroll" [paginator]="true"
+  [rows]="5" [totalRecords]="totalRecords" [loading]="loading" [showCurrentPageReport]="true"
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} musics">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Title</th>
+      <th>Artist</th>
+      <th>Release Date</th>
+      <th>Duration</th>
+      <th>Number Views</th>
+      <th>Feat</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-music>
+    <tr>
+      <td>{{ music.title }}</td>
+      <td>{{ music.artist }}</td>
+      <td>{{ music.release_date | date:"dd/MM/yyyy" }}</td>
+      <td>{{ music.duration | duration }}</td>
+      <td>{{ music.number_views | number }}</td>
+      <td>{{ music.feat | feat }}</td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<app-session-expired [(visible)]="sessionExpiredDialog"></app-session-expired>

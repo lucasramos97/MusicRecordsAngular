@@ -43,4 +43,8 @@ export class MusicService {
     return this.httpClient.get<number>(`${this.URL}/deleted/count`, this.HTTP_OPTIONS);
   }
 
+  public getAllDeleted(page = 1, size = 5): Observable<PagedMusics> {
+    return this.httpClient.get<PagedMusics>(`${this.URL}/deleted?page=${page}&size=${size}`, this.HTTP_OPTIONS);
+  }
+
 }
