@@ -8,6 +8,9 @@
 <div class="table-top-buttons">
   <p-button label="Add" (click)="openAdd()" class="p-button-primary" icon="pi pi-plus">
   </p-button>
+  <p-button *ngIf="countDeletedMusics > 0" label="Deleted Music List" [badge]="countDeletedMusics.toString()"
+    badgeClass="p-badge-danger" styleClass="p-button-primary" icon="pi pi-trash">
+  </p-button>
 </div>
 
 <p-table [value]="musics" [lazy]="true" (onLazyLoad)="loadMusics($event)" responsiveLayout="scroll" [paginator]="true"

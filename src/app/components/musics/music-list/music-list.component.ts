@@ -30,6 +30,8 @@ export class MusicListComponent implements OnInit, OnDestroy {
   deleteMusicDialog = false;
   deleteMusic = MusicFactory.createDefaultMusic();
 
+  countDeletedMusics = 0;
+
   sessionExpiredDialog = false;
 
   private subscriptions: Array<Subscription> = new Array();
@@ -45,6 +47,7 @@ export class MusicListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.username = this.authenticationService.getUsername();
     this.email = this.authenticationService.getEmail();
+    this.loadCountDeletedMusics();
   }
 
   ngOnDestroy() {
@@ -68,9 +71,8 @@ export class MusicListComponent implements OnInit, OnDestroy {
             this.totalRecords = pagedMusics.total;
           },
           error: (err: HttpErrorResponse) => {
-            if (err.status === 401) {
-              this.authenticationService.logout();
-              this.sessionExpiredDialog = true;
+            if (err.status === 401 && !this.sessionExpiredDialog) {
+              this.handlerSessionExpired();
               return;
             }
 
@@ -103,13 +105,35 @@ export class MusicListComponent implements OnInit, OnDestroy {
   }
 
   onDeleteMusicSuccess() {
+    this.loadCountDeletedMusics();
     this.loadMusics(this.lastEvent);
     this.deleteMusicDialog = false;
+  }
+
+  loadCountDeletedMusics() {
+    this.subscriptions.push(this.musicService.countDeleted()
+      .subscribe({
+        next: (total) => this.countDeletedMusics = total,
+        error: (err: HttpErrorResponse) => {
+          if (err.status === 401 && !this.sessionExpiredDialog) {
+            this.handlerSessionExpired();
+            return;
+          }
+
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error.message })
+        }
+      })
+    );
   }
 
   onHideSessionExpiredDialog() {
     this.sessionExpiredDialog = false;
     this.router.navigateByUrl('/login');
+  }
+
+  private handlerSessionExpired() {
+    this.authenticationService.logout();
+    this.sessionExpiredDialog = true;
   }
 
 }

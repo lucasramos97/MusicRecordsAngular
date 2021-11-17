@@ -39,4 +39,8 @@ export class MusicService {
     return this.httpClient.delete<Music>(`${this.URL}/${musicId}`, this.HTTP_OPTIONS);
   }
 
+  public countDeleted(): Observable<number> {
+    return this.httpClient.get<number>(`${this.URL}/deleted/count`, this.HTTP_OPTIONS);
+  }
+
 }
