@@ -8,6 +8,7 @@ import { LazyLoadEvent, MessageService } from 'primeng/api';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Music } from 'src/app/interfaces/all';
 import { MusicService } from 'src/app/services/music.service';
+import MusicFactory from 'src/app/utils/MusicFactory';
 
 @Component({
   selector: 'app-music-list',
@@ -24,6 +25,7 @@ export class MusicListComponent implements OnInit, OnDestroy {
 
   titleMusicDialog = '';
   musicDialog = false;
+  music = MusicFactory.createDefaultMusic();
 
   sessionExpiredDialog = false;
 
@@ -71,12 +73,20 @@ export class MusicListComponent implements OnInit, OnDestroy {
 
             this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error.message })
           }
-        }));
+        })
+      );
     }, 1000);
   }
 
   openAdd() {
+    this.music = MusicFactory.createDefaultMusic();
     this.titleMusicDialog = 'Add Music';
+    this.musicDialog = true;
+  }
+
+  openEdit(music: Music) {
+    this.music = MusicFactory.createEditMusic(music);
+    this.titleMusicDialog = 'Edit Music';
     this.musicDialog = true;
   }
 

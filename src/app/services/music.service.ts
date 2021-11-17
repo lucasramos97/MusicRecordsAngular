@@ -31,4 +31,8 @@ export class MusicService {
     return this.httpClient.post<Music>(this.URL, music, this.HTTP_OPTIONS);
   }
 
+  public update(music: Music): Observable<Music> {
+    return this.httpClient.put<Music>(`${this.URL}/${music.id}`, music, this.HTTP_OPTIONS);
+  }
+
 }

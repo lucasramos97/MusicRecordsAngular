@@ -55,7 +55,8 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.router.navigateByUrl('/musics');
           },
           error: (err: HttpErrorResponse) => this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error.message })
-        }));
+        })
+      );
     } else {
       this.submitted = true;
     }

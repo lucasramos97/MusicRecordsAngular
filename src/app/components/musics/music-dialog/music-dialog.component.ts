@@ -1,12 +1,13 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { finalize, Subscription } from 'rxjs';
 
 import { MessageService } from 'primeng/api';
 
-import { Music } from 'src/app/interfaces/all';
 import { MusicService } from 'src/app/services/music.service';
 import Messages from 'src/app/utils/Messages';
+import MusicFactory from 'src/app/utils/MusicFactory';
+import DateUtils from 'src/app/utils/DateUtils';
 
 @Component({
   selector: 'app-music-dialog',
@@ -14,9 +15,9 @@ import Messages from 'src/app/utils/Messages';
 })
 export class MusicDialogComponent implements OnInit, OnDestroy {
 
+  @Input() music = MusicFactory.createDefaultMusic();
   @Output() onSaveSuccess = new EventEmitter<boolean>();
 
-  music = this.createMusic();
   submitted = false;
   spinLoader = false;
 
@@ -37,20 +38,14 @@ export class MusicDialogComponent implements OnInit, OnDestroy {
   actionSave() {
     if (this.validMusic()) {
       this.spinLoader = true;
-      this.saveMusic();
+      if (this.music.id) {
+        this.editMusic();
+      } else {
+        this.saveMusic();
+      }
     } else {
       this.submitted = true;
     }
-  }
-
-  private createMusic(): Music {
-    return {
-      title: '',
-      artist: '',
-      release_date: '',
-      duration: '',
-      feat: false
-    };
   }
 
   private validMusic(): boolean {
@@ -60,7 +55,7 @@ export class MusicDialogComponent implements OnInit, OnDestroy {
       return false;
     }
 
-    const releaseDate = new Date(`${this.submittedReleaseDate(this.music.release_date)}T00:00:00`);
+    const releaseDate = DateUtils.createReleaseDate(this.music.release_date);
     if (Number.isNaN(releaseDate.getDate())) {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: Messages.getInvalidDate(this.music.release_date) })
       return false;
@@ -71,7 +66,7 @@ export class MusicDialogComponent implements OnInit, OnDestroy {
       return false;
     }
 
-    const duration = new Date(`2021-01-01T00:${this.music.duration}`);
+    const duration = DateUtils.createDuration(this.music.duration);
     if (Number.isNaN(duration.getDate())) {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: Messages.getInvalidTime(this.music.duration) })
       return false;
@@ -80,41 +75,8 @@ export class MusicDialogComponent implements OnInit, OnDestroy {
     return true;
   }
 
-  private submittedReleaseDate(releaseDate: string): string {
-
-    const splitReleaseDate = releaseDate.split('/');
-    const day = splitReleaseDate[0];
-    const month = splitReleaseDate[1];
-    const year = splitReleaseDate[2];
-
-    return `${year}-${month}-${day}`;
-  }
-
-  private submittedDuration(duration: string): string {
-    return `00:${duration}`;
-  }
-
-  private submittedNumberViews(numberViews: number | undefined): number {
-    if (numberViews) {
-      return numberViews;
-    }
-
-    return 0;
-  }
-
-  private submittedMusic(music: Music): Music {
-    return {
-      title: music.title,
-      artist: music.artist,
-      release_date: this.submittedReleaseDate(music.release_date),
-      duration: this.submittedDuration(this.music.duration),
-      number_views: this.submittedNumberViews(this.music.number_views),
-      feat: music.feat
-    }
-  }
-
   private saveMusic() {
-    const submittedMusic = this.submittedMusic(this.music);
+    const submittedMusic = MusicFactory.createSubmittedMusic(this.music);
     this.subscriptions.push(this.musicService.save(submittedMusic)
       .pipe(
         finalize(() => {
@@ -124,11 +86,30 @@ export class MusicDialogComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () => {
           this.messageService.add({ severity: 'success', summary: 'Successfully', detail: Messages.MUSIC_SUCCESSFULLY_ADDED });
-          this.music = this.createMusic();
+          this.music = MusicFactory.createDefaultMusic();
           this.onSaveSuccess.emit(true);
         },
         error: (err: HttpErrorResponse) => this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error.message })
-      }));
+      })
+    );
+  }
+
+  private editMusic() {
+    const submittedMusic = MusicFactory.createSubmittedMusic(this.music);
+    this.subscriptions.push(this.musicService.update(submittedMusic)
+      .pipe(
+        finalize(() => {
+          this.submitted = false;
+          this.spinLoader = false;
+        }))
+      .subscribe({
+        next: () => {
+          this.messageService.add({ severity: 'success', summary: 'Successfully', detail: Messages.MUSIC_SUCCESSFULLY_EDITED });
+          this.onSaveSuccess.emit(true);
+        },
+        error: (err: HttpErrorResponse) => this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error.message })
+      })
+    );
   }
 
 }

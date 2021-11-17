@@ -13,6 +13,7 @@ import { TableModule } from 'primeng/table';
 import { InputMaskModule } from 'primeng/inputmask';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { RadioButtonModule } from 'primeng/radiobutton';
+import { TooltipModule } from 'primeng/tooltip';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -49,7 +50,8 @@ import { SessionExpiredComponent } from './components/utils/session-expired/sess
     TableModule,
     InputMaskModule,
     InputNumberModule,
-    RadioButtonModule
+    RadioButtonModule,
+    TooltipModule
   ],
   providers: [],
   bootstrap: [AppComponent]

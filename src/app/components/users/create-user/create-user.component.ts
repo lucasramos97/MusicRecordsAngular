@@ -51,7 +51,8 @@ export class CreateUserComponent implements OnInit {
         .subscribe({
           next: () => this.onCreateSuccess.emit(true),
           error: (err: HttpErrorResponse) => this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error.message })
-        }));
+        })
+      );
     } else {
       this.submitted = true;
     }
