@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { finalize, Subscription } from 'rxjs';
 
@@ -53,7 +54,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.authenticationService.setUser(authenticable);
             this.router.navigateByUrl('/musics');
           },
-          error: (err) => this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error.message })
+          error: (err: HttpErrorResponse) => this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error.message })
         }));
     } else {
       this.submitted = true;

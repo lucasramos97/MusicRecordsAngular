@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { finalize, Subscription } from 'rxjs';
 
 import { MessageService } from 'primeng/api';
@@ -126,7 +127,7 @@ export class MusicDialogComponent implements OnInit, OnDestroy {
           this.music = this.createMusic();
           this.onSaveSuccess.emit(true);
         },
-        error: (err) => this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error.message })
+        error: (err: HttpErrorResponse) => this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error.message })
       }));
   }
 

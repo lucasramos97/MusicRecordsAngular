@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { finalize, Subscription } from 'rxjs';
 
 import { MessageService } from 'primeng/api';
@@ -49,7 +50,7 @@ export class CreateUserComponent implements OnInit {
           }))
         .subscribe({
           next: () => this.onCreateSuccess.emit(true),
-          error: (err) => this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error.message })
+          error: (err: HttpErrorResponse) => this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error.message })
         }));
     } else {
       this.submitted = true;

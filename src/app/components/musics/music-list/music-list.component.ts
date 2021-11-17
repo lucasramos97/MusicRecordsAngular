@@ -1,4 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { finalize, Subscription } from 'rxjs';
 
 import { LazyLoadEvent, MessageService } from 'primeng/api';
@@ -23,13 +25,16 @@ export class MusicListComponent implements OnInit, OnDestroy {
   titleMusicDialog = '';
   musicDialog = false;
 
+  sessionExpiredDialog = false;
+
   private subscriptions: Array<Subscription> = new Array();
   private lastEvent: LazyLoadEvent = {};
 
   constructor(
     private authenticationService: AuthenticationService,
     private musicService: MusicService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -57,7 +62,15 @@ export class MusicListComponent implements OnInit, OnDestroy {
             this.musics = pagedMusics.content;
             this.totalRecords = pagedMusics.total;
           },
-          error: (err) => this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error.message })
+          error: (err: HttpErrorResponse) => {
+            if (err.status === 401) {
+              this.authenticationService.logout();
+              this.sessionExpiredDialog = true;
+              return;
+            }
+
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error.message })
+          }
         }));
     }, 1000);
   }
@@ -69,6 +82,11 @@ export class MusicListComponent implements OnInit, OnDestroy {
 
   onSaveSuccess() {
     this.loadMusics(this.lastEvent);
+  }
+
+  onHideSessionExpiredDialog() {
+    this.sessionExpiredDialog = false;
+    this.router.navigateByUrl('/login');
   }
 
 }

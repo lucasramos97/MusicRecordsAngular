@@ -38,3 +38,8 @@
 <p-dialog [header]="titleMusicDialog" [(visible)]="musicDialog" [modal]="true" [style]="{width: '500px'}">
   <app-music-dialog (onSaveSuccess)="onSaveSuccess()"></app-music-dialog>
 </p-dialog>
+
+<p-dialog header="Info" [(visible)]="sessionExpiredDialog" (onHide)="onHideSessionExpiredDialog()" [modal]="true"
+  [style]="{width: '450px'}">
+  <app-session-expired></app-session-expired>
+</p-dialog>

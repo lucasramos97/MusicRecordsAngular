@@ -22,6 +22,7 @@ import { MusicListComponent } from './components/musics/music-list/music-list.co
 import { DurationPipe } from './pipes/duration.pipe';
 import { FeatPipe } from './pipes/feat.pipe';
 import { MusicDialogComponent } from './components/musics/music-dialog/music-dialog.component';
+import { SessionExpiredComponent } from './components/utils/session-expired/session-expired.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { MusicDialogComponent } from './components/musics/music-dialog/music-dia
     MusicListComponent,
     DurationPipe,
     FeatPipe,
-    MusicDialogComponent
+    MusicDialogComponent,
+    SessionExpiredComponent
   ],
   imports: [
     BrowserModule,
