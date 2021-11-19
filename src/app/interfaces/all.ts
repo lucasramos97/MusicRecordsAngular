@@ -1,19 +1,19 @@
-export interface Login {
+export interface ILogin {
   email: string,
   password: string
 }
 
-export interface Authenticable {
+export interface IAuthenticable {
   token: string,
   username: string,
   email: string
 }
 
-export interface User extends Login {
+export interface IUser extends ILogin {
   username: string
 }
 
-export interface Music {
+export interface IMusic {
   id?: number,
   title: string,
   artist: string,
@@ -23,7 +23,7 @@ export interface Music {
   feat?: boolean
 }
 
-export interface PagedMusics {
-  content: Music[],
+export interface IPagedMusics {
+  content: IMusic[],
   total: number
 }

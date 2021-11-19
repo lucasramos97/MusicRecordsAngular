@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { Authenticable, Login, User } from '../interfaces/all';
+import { IAuthenticable, ILogin, IUser } from '../interfaces/all';
 
 @Injectable({
   providedIn: 'root'
@@ -15,11 +15,11 @@ export class UserService {
     private httpClient: HttpClient
   ) { }
 
-  public login(login: Login): Observable<Authenticable> {
-    return this.httpClient.post<Authenticable>(`${this.URL}/login`, login);
+  public login(login: ILogin): Observable<IAuthenticable> {
+    return this.httpClient.post<IAuthenticable>(`${this.URL}/login`, login);
   }
 
-  public create(user: User): Observable<User> {
-    return this.httpClient.post<User>(`${this.URL}/users`, user);
+  public create(user: IUser): Observable<IUser> {
+    return this.httpClient.post<IUser>(`${this.URL}/users`, user);
   }
 }

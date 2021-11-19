@@ -5,7 +5,7 @@ import { finalize, Subscription } from 'rxjs';
 
 import { MessageService } from 'primeng/api';
 
-import { Login } from 'src/app/interfaces/all';
+import { ILogin } from 'src/app/interfaces/all';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { UserService } from 'src/app/services/user.service';
 import Messages from 'src/app/utils/Messages';
@@ -16,13 +16,15 @@ import StringUtils from 'src/app/utils/StringUtils';
 })
 export class LoginComponent implements OnInit, OnDestroy {
 
-  login: Login = {
+  login: ILogin = {
     email: '',
     password: ''
   };
+
   submitted = false;
   spinLoader = false;
-  createUserDialog = false;
+
+  visibleCreateUser = false;
 
   private subscriptions: Array<Subscription> = new Array();
 
@@ -41,7 +43,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   actionLogin() {
-    if (this.validUser()) {
+    if (this.validLogin()) {
       this.spinLoader = true;
       this.subscriptions.push(this.userService.login(this.login)
         .pipe(
@@ -63,16 +65,12 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   openCreateUser() {
-    this.createUserDialog = true;
+    this.visibleCreateUser = true;
   }
 
-  onCreateSuccess() {
-    this.createUserDialog = false;
-    this.messageService.add({ severity: 'success', summary: 'Successfully', detail: Messages.USER_SUCCESSFULLY_CREATE });
-  }
-
-  private validUser() {
-    if (!this.login.email || !this.login.password) {
+  private validLogin() {
+    const allRequiredFields = Boolean(this.login.email && this.login.password);
+    if (!allRequiredFields) {
       return false;
     }
 

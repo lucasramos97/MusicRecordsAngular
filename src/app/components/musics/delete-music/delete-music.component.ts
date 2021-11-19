@@ -14,6 +14,9 @@ import MusicFactory from 'src/app/utils/MusicFactory';
 })
 export class DeleteMusicComponent implements OnInit, OnDestroy {
 
+  @Input() visible = false;
+  @Output() visibleChange = new EventEmitter<boolean>();
+
   @Input() music = MusicFactory.createDefaultMusic();
   @Output() onSuccess = new EventEmitter<boolean>();
 
@@ -44,10 +47,15 @@ export class DeleteMusicComponent implements OnInit, OnDestroy {
         next: () => {
           this.messageService.add({ severity: 'success', summary: 'Successfully', detail: Messages.MUSIC_SUCCESSFULLY_DELETED });
           this.onSuccess.emit(true);
+          this.visibleChange.emit(false);
         },
         error: (err: HttpErrorResponse) => this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error.message })
       })
     );
+  }
+
+  onHide() {
+    this.visibleChange.emit(false);
   }
 
 }

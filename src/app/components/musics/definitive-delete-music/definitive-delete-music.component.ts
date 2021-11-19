@@ -4,7 +4,6 @@ import { finalize, Subscription } from 'rxjs';
 
 import { MessageService } from 'primeng/api';
 
-import { Music } from 'src/app/interfaces/all';
 import { MusicService } from 'src/app/services/music.service';
 import MusicFactory from 'src/app/utils/MusicFactory';
 import Messages from 'src/app/utils/Messages';
@@ -18,7 +17,7 @@ export class DefinitiveDeleteMusicComponent implements OnInit, OnDestroy {
   @Input() visible = false;
   @Output() visibleChange = new EventEmitter<boolean>();
 
-  @Input() music: Music = MusicFactory.createDefaultMusic();
+  @Input() music = MusicFactory.createDefaultMusic();
   @Output() onSuccess = new EventEmitter<boolean>();
 
   spinLoader = false;

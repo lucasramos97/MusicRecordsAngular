@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Authenticable } from '../interfaces/all';
+
+import { IAuthenticable } from '../interfaces/all';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class AuthenticationService {
   private readonly USERNAME_KEY = 'username';
   private readonly EMAIL_KEY = 'email';
 
-  public setUser(authenticable: Authenticable) {
+  public setUser(authenticable: IAuthenticable) {
     localStorage.setItem(this.TOKEN_KEY, authenticable.token);
     localStorage.setItem(this.USERNAME_KEY, authenticable.username);
     localStorage.setItem(this.EMAIL_KEY, authenticable.email);

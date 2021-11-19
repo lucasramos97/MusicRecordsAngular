@@ -1,32 +1,36 @@
-<div class="p-fluid p-formgrid p-grid">
-  <div class="p-field p-col-12">
-    <label for="username">Username</label>
-    <input id="username" name="username" type="text" [(ngModel)]="user.username" pInputText autofocus
-      aria-describedby="username-help" [ngClass]="{'ng-invalid ng-dirty': submitted && !user.username}" />
-    <small *ngIf="submitted && !user.username" id="username-help" class="p-error">Username is required!</small>
-  </div>
+<p-dialog header="Create User" [(visible)]="visible" [modal]="true" (onHide)="onHide()" [style]="{width: '450px'}">
+  <div class="p-fluid p-formgrid p-grid">
 
-  <div class="p-field p-col-12">
-    <label for="email">E-mail</label>
-    <input id="email" name="email" type="text" [(ngModel)]="user.email" pInputText aria-describedby="email-help"
-      [ngClass]="{'ng-invalid ng-dirty': submitted && !user.email}" />
-    <small *ngIf="submitted && !user.email" id="email-help" class="p-error">E-mail is required!</small>
-  </div>
+    <div class="p-field p-col-12">
+      <label for="username">Username</label>
+      <input id="username" name="username" type="text" [(ngModel)]="user.username" pInputText autofocus
+        aria-describedby="username-help" [ngClass]="{'ng-invalid ng-dirty': submitted && !user.username}" />
+      <small *ngIf="submitted && !user.username" id="username-help" class="p-error">Username is required!</small>
+    </div>
 
-  <div class="p-field p-col-12">
-    <label for="password">Password</label>
-    <p-password id="password" name="password" [(ngModel)]="user.password" [toggleMask]="true"
-      aria-describedby="password-help" [ngClass]="{'ng-invalid ng-dirty': submitted && !user.password}">
-    </p-password>
-    <small *ngIf="submitted && !user.password" id="password-help" class="p-error">Password is required!</small>
-  </div>
+    <div class="p-field p-col-12">
+      <label for="email">E-mail</label>
+      <input id="email" name="email" type="text" [(ngModel)]="user.email" pInputText aria-describedby="email-help"
+        [ngClass]="{'ng-invalid ng-dirty': submitted && !user.email}" />
+      <small *ngIf="submitted && !user.email" id="email-help" class="p-error">E-mail is required!</small>
+    </div>
 
-  <div class="p-field p-col-12 p-md-3">
-    <p-button label="Save" (click)="actionCreate()" [disabled]="spinLoader" class="p-button-primary" icon="pi pi-save">
-    </p-button>
-  </div>
+    <div class="p-field p-col-12">
+      <label for="password">Password</label>
+      <p-password id="password" name="password" [(ngModel)]="user.password" [toggleMask]="true"
+        aria-describedby="password-help" [ngClass]="{'ng-invalid ng-dirty': submitted && !user.password}">
+      </p-password>
+      <small *ngIf="submitted && !user.password" id="password-help" class="p-error">Password is required!</small>
+    </div>
 
-  <div class="p-field p-col-12 p-md-3">
-    <div *ngIf="spinLoader" class="spin-loader"></div>
+    <div class="p-field p-col-12 p-md-3">
+      <button pButton pRipple label="Save" (click)="actionCreateUser()" [disabled]="spinLoader" class="p-button-success"
+        icon="pi pi-save">
+      </button>
+    </div>
+
+    <div class="p-field p-col-12 p-md-3">
+      <div *ngIf="spinLoader" class="spin-loader"></div>
+    </div>
   </div>
-</div>
+</p-dialog>

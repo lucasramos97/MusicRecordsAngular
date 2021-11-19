@@ -1,15 +1,19 @@
-<div class="p-fluid p-formgrid p-grid">
-  <div class="p-field p-col-12">
-    <i class="pi pi-exclamation-triangle p-mr-3"></i>
-    <span>Are you sure you want to delete music <b>{{music.artist}} - {{music.title}}</b>?</span>
-  </div>
+<p-dialog header="Delete Music" [(visible)]="visible" [modal]="true" (onHide)="onHide()" [style]="{width: '500px'}">
+  <div class="p-fluid p-formgrid p-grid">
 
-  <div class="p-field p-col-12 p-md-3">
-    <p-button label="Yes" (click)="actionDelete()" [disabled]="spinLoader" class="p-button-primary" icon="pi pi-check">
-    </p-button>
-  </div>
+    <div class="p-field p-col-12">
+      <i class="pi pi-exclamation-triangle p-mr-3"></i>
+      <span>Are you sure you want to delete music <b>{{music.artist}} - {{music.title}}</b>?</span>
+    </div>
 
-  <div class="p-field p-col-12 p-md-3">
-    <div *ngIf="spinLoader" class="spin-loader"></div>
+    <div class="p-field p-col-12 p-md-3">
+      <button pButton pRipple label="Yes" (click)="actionDelete()" [disabled]="spinLoader" class="p-button-primary"
+        icon="pi pi-check">
+      </button>
+    </div>
+
+    <div class="p-field p-col-12 p-md-3">
+      <div *ngIf="spinLoader" class="spin-loader"></div>
+    </div>
   </div>
-</div>
+</p-dialog>

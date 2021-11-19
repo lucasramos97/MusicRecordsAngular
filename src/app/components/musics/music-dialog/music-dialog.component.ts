@@ -15,6 +15,10 @@ import DateUtils from 'src/app/utils/DateUtils';
 })
 export class MusicDialogComponent implements OnInit, OnDestroy {
 
+  @Input() visible = false;
+  @Output() visibleChange = new EventEmitter<boolean>();
+
+  @Input() title = '';
   @Input() music = MusicFactory.createDefaultMusic();
   @Output() onSuccess = new EventEmitter<boolean>();
 
@@ -46,6 +50,10 @@ export class MusicDialogComponent implements OnInit, OnDestroy {
     } else {
       this.submitted = true;
     }
+  }
+
+  onHide() {
+    this.visibleChange.emit(false);
   }
 
   private validMusic(): boolean {

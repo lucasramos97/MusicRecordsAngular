@@ -5,7 +5,7 @@ import { finalize, Subscription } from 'rxjs';
 
 import { LazyLoadEvent, MessageService } from 'primeng/api';
 
-import { Music } from 'src/app/interfaces/all';
+import { IMusic } from 'src/app/interfaces/all';
 import { MusicService } from 'src/app/services/music.service';
 import MusicFactory from 'src/app/utils/MusicFactory';
 import NeedAuthenticated from '../../base/NeedAuthenticated';
@@ -16,16 +16,16 @@ import NeedAuthenticated from '../../base/NeedAuthenticated';
 })
 export class MusicListComponent extends NeedAuthenticated implements OnInit, OnDestroy {
 
-  musics: Music[] = [];
+  musics: IMusic[] = [];
   totalRecords = 0;
   loading = true;
 
   titleMusicDialog = '';
-  musicDialog = false;
+  visibleMusicDialog = false;
   music = MusicFactory.createDefaultMusic();
 
-  deleteMusicDialog = false;
-  deleteMusic = MusicFactory.createDefaultMusic();
+  visibleDeleteMusic = false;
+  musicToDelete = MusicFactory.createDefaultMusic();
 
   countDeletedMusics = 0;
 
@@ -81,28 +81,27 @@ export class MusicListComponent extends NeedAuthenticated implements OnInit, OnD
   openAdd() {
     this.music = MusicFactory.createDefaultMusic();
     this.titleMusicDialog = 'Add Music';
-    this.musicDialog = true;
+    this.visibleMusicDialog = true;
   }
 
-  openEdit(music: Music) {
+  openEdit(music: IMusic) {
     this.music = MusicFactory.createEditMusic(music);
     this.titleMusicDialog = 'Edit Music';
-    this.musicDialog = true;
+    this.visibleMusicDialog = true;
   }
 
   onMusicDialogSuccess() {
     this.loadMusics(this.lastEvent);
   }
 
-  openDelete(music: Music) {
-    this.deleteMusic = music;
-    this.deleteMusicDialog = true;
+  openDelete(music: IMusic) {
+    this.musicToDelete = music;
+    this.visibleDeleteMusic = true;
   }
 
   onDeleteMusicSuccess() {
     this.loadCountDeletedMusics();
     this.loadMusics(this.lastEvent);
-    this.deleteMusicDialog = false;
   }
 
   loadCountDeletedMusics() {

@@ -5,7 +5,7 @@ import { finalize, Subscription } from 'rxjs';
 
 import { LazyLoadEvent, MessageService } from 'primeng/api';
 
-import { Music } from 'src/app/interfaces/all';
+import { IMusic } from 'src/app/interfaces/all';
 import { MusicService } from 'src/app/services/music.service';
 import MusicFactory from 'src/app/utils/MusicFactory';
 import NeedAuthenticated from '../../base/NeedAuthenticated';
@@ -16,17 +16,17 @@ import NeedAuthenticated from '../../base/NeedAuthenticated';
 })
 export class DeletedMusicListComponent extends NeedAuthenticated implements OnInit, OnDestroy {
 
-  musics: Music[] = [];
+  musics: IMusic[] = [];
   totalRecords = 0;
   loading = true;
 
-  restoreMusicsDialog = false;
-  selectedMusics: Music[] = [];
+  visibleRestoreMusics = false;
+  selectedMusics: IMusic[] = [];
 
-  definitiveDeleteMusicDialog = false;
+  visibleDefinitiveDeleteMusic = false;
   musicToDelete = MusicFactory.createDefaultMusic();
 
-  emptyListDialog = false;
+  visibleEmptyList = false;
 
   private subscriptions: Array<Subscription> = new Array();
   private lastEvent: LazyLoadEvent = {};
@@ -75,16 +75,16 @@ export class DeletedMusicListComponent extends NeedAuthenticated implements OnIn
   }
 
   openRestore() {
-    this.restoreMusicsDialog = true;
+    this.visibleRestoreMusics = true;
   }
 
   onRestoredMusicsSuccess() {
     this.reloadList();
   }
 
-  openDefinitiveDelete(music: Music) {
+  openDefinitiveDelete(music: IMusic) {
     this.musicToDelete = music;
-    this.definitiveDeleteMusicDialog = true;
+    this.visibleDefinitiveDeleteMusic = true;
   }
 
   onDefinitiveDeleteMusicSuccess() {
@@ -93,7 +93,7 @@ export class DeletedMusicListComponent extends NeedAuthenticated implements OnIn
   }
 
   openEmptyList() {
-    this.emptyListDialog = true;
+    this.visibleEmptyList = true;
   }
 
   onEmptyListSuccess() {

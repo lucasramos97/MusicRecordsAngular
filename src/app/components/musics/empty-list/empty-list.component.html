@@ -1,14 +1,15 @@
 <p-dialog header="Empty List" [(visible)]="visible" [modal]="true" (onHide)="onHide()" [style]="{width: '500px'}">
   <div class="p-fluid p-formgrid p-grid">
+
     <div class="p-field p-col-12">
       <i class="pi pi-exclamation-triangle p-mr-3"></i>
       <span>Do you really want to delete all deleted musics?</span>
     </div>
 
     <div class="p-field p-col-12 p-md-3">
-      <p-button label="Yes" (click)="actionEmptyList()" [disabled]="spinLoader" class="p-button-primary"
+      <button pButton pRipple label="Yes" (click)="actionEmptyList()" [disabled]="spinLoader" class="p-button-primary"
         icon="pi pi-check">
-      </p-button>
+      </button>
     </div>
 
     <div class="p-field p-col-12 p-md-3">

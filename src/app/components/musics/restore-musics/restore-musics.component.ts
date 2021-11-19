@@ -4,7 +4,7 @@ import { finalize, Subscription } from 'rxjs';
 
 import { MessageService } from 'primeng/api';
 
-import { Music } from 'src/app/interfaces/all';
+import { IMusic } from 'src/app/interfaces/all';
 import { MusicService } from 'src/app/services/music.service';
 import Messages from 'src/app/utils/Messages';
 
@@ -17,7 +17,7 @@ export class RestoreMusicsComponent implements OnInit, OnDestroy {
   @Input() visible = false;
   @Output() visibleChange = new EventEmitter<boolean>();
 
-  @Input() musics: Music[] = [];
+  @Input() musics: IMusic[] = [];
   @Output() onSuccess = new EventEmitter<boolean>();
 
   spinLoader = false;

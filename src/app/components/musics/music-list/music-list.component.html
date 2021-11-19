@@ -3,16 +3,16 @@
 <h1>Music List</h1>
 
 <div class="table-top-buttons">
-  <p-button label="Add" (click)="openAdd()" class="p-button-primary" icon="pi pi-plus">
-  </p-button>
+  <button pButton pRipple label="Add" (click)="openAdd()" class="p-button-primary" icon="pi pi-plus">
+  </button>
 
   <p-button *ngIf="countDeletedMusics > 0" label="Deleted Music List" (click)="goToDeletedMusicList()"
     [badge]="countDeletedMusics.toString()" badgeClass="p-badge-danger" styleClass="p-button-primary"
     icon="pi pi-trash">
   </p-button>
 
-  <button pButton pRipple type="button" label="Logout" (click)="openLogout()" class="p-button-primary"
-    icon="pi pi-sign-out" iconPos="right">
+  <button pButton pRipple label="Logout" (click)="openLogout()" class="p-button-primary" icon="pi pi-sign-out"
+    iconPos="right">
   </button>
 </div>
 
@@ -53,16 +53,15 @@
   </ng-template>
 </p-table>
 
-<p-dialog [header]="titleMusicDialog" [(visible)]="musicDialog" [modal]="true" [style]="{width: '500px'}">
-  <app-music-dialog [music]="music" (onSuccess)="onMusicDialogSuccess()"></app-music-dialog>
-</p-dialog>
+<app-music-dialog [(visible)]="visibleMusicDialog" [title]="titleMusicDialog" [music]="music"
+  (onSuccess)="onMusicDialogSuccess()">
+</app-music-dialog>
 
-<p-dialog header="Delete Music" [(visible)]="deleteMusicDialog" [modal]="true" [style]="{width: '500px'}">
-  <app-delete-music [music]="deleteMusic" (onSuccess)="onDeleteMusicSuccess()"></app-delete-music>
-</p-dialog>
+<app-delete-music [(visible)]="visibleDeleteMusic" [music]="musicToDelete" (onSuccess)="onDeleteMusicSuccess()">
+</app-delete-music>
 
 <app-logout-dialog [(visible)]="logoutDialog">
 </app-logout-dialog>
 
-<app-session-expired [(visible)]="sessionExpiredDialog">
+<app-session-expired [(visible)]="visibleSessionExpired">
 </app-session-expired>

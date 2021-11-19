@@ -1,7 +1,7 @@
-import { Music } from "../interfaces/all";
+import { IMusic } from "../interfaces/all";
 
 export default class MusicFactory {
-  public static createDefaultMusic(): Music {
+  public static createDefaultMusic(): IMusic {
     return {
       title: '',
       artist: '',
@@ -11,7 +11,7 @@ export default class MusicFactory {
     };
   }
 
-  public static createSubmittedMusic(music: Music): Music {
+  public static createSubmittedMusic(music: IMusic): IMusic {
     return {
       ...music,
       release_date: this.formatSubmittedReleaseDate(music.release_date),
@@ -20,7 +20,7 @@ export default class MusicFactory {
     }
   }
 
-  public static createEditMusic(music: Music): Music {
+  public static createEditMusic(music: IMusic): IMusic {
     return {
       ...music,
       release_date: this.formatEditReleaseDate(music.release_date),

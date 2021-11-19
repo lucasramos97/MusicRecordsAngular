@@ -1,10 +1,10 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { finalize, Subscription } from 'rxjs';
 
 import { MessageService } from 'primeng/api';
 
-import { User } from 'src/app/interfaces/all';
+import { IUser } from 'src/app/interfaces/all';
 import { UserService } from 'src/app/services/user.service';
 import Messages from 'src/app/utils/Messages';
 import StringUtils from 'src/app/utils/StringUtils';
@@ -15,13 +15,15 @@ import StringUtils from 'src/app/utils/StringUtils';
 })
 export class CreateUserComponent implements OnInit, OnDestroy {
 
-  @Output() onCreateSuccess = new EventEmitter<boolean>();
+  @Input() visible = false;
+  @Output() visibleChange = new EventEmitter<boolean>();
 
-  user: User = {
+  user: IUser = {
     username: '',
     email: '',
     password: ''
   };
+
   submitted = false;
   spinLoader = false;
 
@@ -39,7 +41,7 @@ export class CreateUserComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
-  actionCreate() {
+  actionCreateUser() {
     if (this.validUser()) {
       this.spinLoader = true;
       this.subscriptions.push(this.userService.create(this.user)
@@ -49,7 +51,10 @@ export class CreateUserComponent implements OnInit, OnDestroy {
             this.spinLoader = false;
           }))
         .subscribe({
-          next: () => this.onCreateSuccess.emit(true),
+          next: () => {
+            this.messageService.add({ severity: 'success', summary: 'Successfully', detail: Messages.USER_SUCCESSFULLY_CREATE });
+            this.visibleChange.emit(false);
+          },
           error: (err: HttpErrorResponse) => this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error.message })
         })
       );
@@ -58,8 +63,13 @@ export class CreateUserComponent implements OnInit, OnDestroy {
     }
   }
 
+  onHide() {
+    this.visibleChange.emit(false);
+  }
+
   private validUser() {
-    if (!this.user.username || !this.user.email || !this.user.password) {
+    const allRequiredFields = Boolean(this.user.username && this.user.email && this.user.password);
+    if (!allRequiredFields) {
       return false;
     }
 
