@@ -47,4 +47,8 @@ export class MusicService {
     return this.httpClient.get<PagedMusics>(`${this.URL}/deleted?page=${page}&size=${size}`, this.HTTP_OPTIONS);
   }
 
+  public restoreMusics(musics: Music[]): Observable<number> {
+    return this.httpClient.post<number>(`${this.URL}/deleted/restore`, musics, this.HTTP_OPTIONS);
+  }
+
 }

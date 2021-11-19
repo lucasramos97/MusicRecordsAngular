@@ -17,4 +17,8 @@ export default class Messages {
     return `'${time}' is not a valid time!`;
   }
 
+  public static getRestoredMusicsSuccessfully(total: number): string {
+    return `${total} musics successfully restored!`;
+  }
+
 }

@@ -16,10 +16,14 @@ import NeedAuthenticated from '../../base/NeedAuthenticated';
 export class DeletedMusicListComponent extends NeedAuthenticated implements OnInit, OnDestroy {
 
   musics: Music[] = [];
+  selectedMusics: Music[] = [];
   totalRecords = 0;
   loading = true;
 
+  restoreMusicsDialog = false;
+
   private subscriptions: Array<Subscription> = new Array();
+  private lastEvent: LazyLoadEvent = {};
 
   constructor(
     private musicService: MusicService,
@@ -39,6 +43,7 @@ export class DeletedMusicListComponent extends NeedAuthenticated implements OnIn
   loadMusics(event: LazyLoadEvent) {
     this.loading = true;
     const page = event.first! / event.rows! + 1;
+    this.lastEvent = event;
 
     setTimeout(() => {
       this.subscriptions.push(this.musicService.getAllDeleted(page, event.rows)
@@ -61,6 +66,15 @@ export class DeletedMusicListComponent extends NeedAuthenticated implements OnIn
         })
       );
     }, 1000);
+  }
+
+  openRestore() {
+    this.restoreMusicsDialog = true;
+  }
+
+  onRestoredMusicsSuccess() {
+    this.loadMusics(this.lastEvent);
+    this.selectedMusics = [];
   }
 
   goToMusicList() {

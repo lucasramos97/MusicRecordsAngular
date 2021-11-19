@@ -25,7 +25,7 @@ export class SessionExpiredComponent implements OnInit {
   }
 
   onHide() {
-    this.visible = false;
+    this.visibleChange.emit(false);
     this.router.navigateByUrl('/login');
   }
 

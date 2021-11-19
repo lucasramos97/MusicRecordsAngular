@@ -1,0 +1,21 @@
+<p-dialog header="Restore Musics" [(visible)]="visible" [modal]="true" (onHide)="onHide()" [style]="{width: '500px'}">
+  <div class="p-fluid p-formgrid p-grid">
+    <div class="p-field p-col-12">
+      <i class="pi pi-exclamation-triangle p-mr-3"></i>
+      <span>Do you really want to restore the musics:</span>
+      <li *ngFor="let music of musics" class="p-m-2">
+        {{ music.artist }} - {{ music.title }}
+      </li>
+    </div>
+
+    <div class="p-field p-col-12 p-md-3">
+      <p-button label="Yes" (click)="actionRestoreMusics()" [disabled]="spinLoader" class="p-button-primary"
+        icon="pi pi-check">
+      </p-button>
+    </div>
+
+    <div class="p-field p-col-12 p-md-3">
+      <div *ngIf="spinLoader" class="spin-loader"></div>
+    </div>
+  </div>
+</p-dialog>
