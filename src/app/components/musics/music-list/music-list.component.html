@@ -5,10 +5,15 @@
 <div class="table-top-buttons">
   <p-button label="Add" (click)="openAdd()" class="p-button-primary" icon="pi pi-plus">
   </p-button>
+
   <p-button *ngIf="countDeletedMusics > 0" label="Deleted Music List" (click)="goToDeletedMusicList()"
     [badge]="countDeletedMusics.toString()" badgeClass="p-badge-danger" styleClass="p-button-primary"
     icon="pi pi-trash">
   </p-button>
+
+  <button pButton pRipple type="button" label="Logout" (click)="openLogout()" class="p-button-primary"
+    icon="pi pi-sign-out" iconPos="right">
+  </button>
 </div>
 
 <p-table [value]="musics" [lazy]="true" (onLazyLoad)="loadMusics($event)" responsiveLayout="scroll" [paginator]="true"
@@ -56,4 +61,8 @@
   <app-delete-music [music]="deleteMusic" (onSuccess)="onDeleteMusicSuccess()"></app-delete-music>
 </p-dialog>
 
-<app-session-expired [(visible)]="sessionExpiredDialog"></app-session-expired>
+<app-logout-dialog [(visible)]="logoutDialog">
+</app-logout-dialog>
+
+<app-session-expired [(visible)]="sessionExpiredDialog">
+</app-session-expired>

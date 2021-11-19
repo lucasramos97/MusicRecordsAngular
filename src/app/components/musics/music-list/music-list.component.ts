@@ -29,6 +29,8 @@ export class MusicListComponent extends NeedAuthenticated implements OnInit, OnD
 
   countDeletedMusics = 0;
 
+  logoutDialog = false;
+
   private subscriptions: Array<Subscription> = new Array();
   private lastEvent: LazyLoadEvent = {};
 
@@ -120,6 +122,10 @@ export class MusicListComponent extends NeedAuthenticated implements OnInit, OnD
 
   goToDeletedMusicList() {
     this.router.navigateByUrl('/musics/deleted');
+  }
+
+  openLogout() {
+    this.logoutDialog = true;
   }
 
 }
