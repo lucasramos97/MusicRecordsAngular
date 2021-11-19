@@ -55,4 +55,8 @@ export class MusicService {
     return this.httpClient.delete<Music>(`${this.URL}/definitive/${musicId}`, this.HTTP_OPTIONS);
   }
 
+  public emptyList(): Observable<number> {
+    return this.httpClient.delete<number>(`${this.URL}/empty-list`, this.HTTP_OPTIONS);
+  }
+
 }

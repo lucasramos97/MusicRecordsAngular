@@ -29,6 +29,7 @@ import { DeletedMusicListComponent } from './components/musics/deleted-music-lis
 import { LoggedUserComponent } from './components/utils/logged-user/logged-user.component';
 import { RestoreMusicsComponent } from './components/musics/restore-musics/restore-musics.component';
 import { DefinitiveDeleteMusicComponent } from './components/musics/definitive-delete-music/definitive-delete-music.component';
+import { EmptyListComponent } from './components/musics/empty-list/empty-list.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { DefinitiveDeleteMusicComponent } from './components/musics/definitive-d
     DeletedMusicListComponent,
     LoggedUserComponent,
     RestoreMusicsComponent,
-    DefinitiveDeleteMusicComponent
+    DefinitiveDeleteMusicComponent,
+    EmptyListComponent
   ],
   imports: [
     BrowserModule,

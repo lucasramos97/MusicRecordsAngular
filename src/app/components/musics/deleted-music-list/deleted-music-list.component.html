@@ -3,11 +3,17 @@
 <h1>Deleted Music List</h1>
 
 <div class="table-top-buttons">
-  <p-button label="Restore" (click)="openRestore()" [disabled]="selectedMusics.length == 0" class="p-button-primary"
-    icon="pi pi-refresh">
-  </p-button>
-  <p-button label="Music List" (click)="goToMusicList()" class="p-button-primary" icon="pi pi-arrow-right">
-  </p-button>
+  <button pButton pRipple type="button" label="Restore" (click)="openRestore()" [disabled]="selectedMusics.length == 0"
+    class="p-button-primary" icon="pi pi-refresh">
+  </button>
+
+  <button pButton pRipple type="button" label="Empty List" (click)="openEmptyList()" [disabled]="musics.length == 0"
+    class="p-button-danger" icon="pi pi-ban">
+  </button>
+
+  <button pButton pRipple type="button" label="Music List" (click)="goToMusicList()" class="p-button-primary"
+    icon="pi pi-arrow-right">
+  </button>
 </div>
 
 <p-table [value]="musics" [(selection)]="selectedMusics" dataKey="id" [lazy]="true" (onLazyLoad)="loadMusics($event)"
@@ -54,4 +60,8 @@
   (onSuccess)="onDefinitiveDeleteMusicSuccess()">
 </app-definitive-delete-music>
 
-<app-session-expired [(visible)]="sessionExpiredDialog"></app-session-expired>
+<app-empty-list [(visible)]="emptyListDialog" (onSuccess)="onEmptyListSuccess()">
+</app-empty-list>
+
+<app-session-expired [(visible)]="sessionExpiredDialog">
+</app-session-expired>

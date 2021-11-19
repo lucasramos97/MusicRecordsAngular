@@ -6,15 +6,16 @@ import { MessageService } from 'primeng/api';
 
 import { MusicService } from 'src/app/services/music.service';
 import Messages from 'src/app/utils/Messages';
-import MusicFactory from 'src/app/utils/MusicFactory';
 
 @Component({
-  selector: 'app-delete-music',
-  templateUrl: './delete-music.component.html'
+  selector: 'app-empty-list',
+  templateUrl: './empty-list.component.html'
 })
-export class DeleteMusicComponent implements OnInit, OnDestroy {
+export class EmptyListComponent implements OnInit, OnDestroy {
 
-  @Input() music = MusicFactory.createDefaultMusic();
+  @Input() visible = false;
+  @Output() visibleChange = new EventEmitter<boolean>();
+
   @Output() onSuccess = new EventEmitter<boolean>();
 
   spinLoader = false;
@@ -33,21 +34,26 @@ export class DeleteMusicComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
-  actionDelete() {
+  actionEmptyList() {
     this.spinLoader = true;
-    this.subscriptions.push(this.musicService.delete(this.music.id)
+    this.subscriptions.push(this.musicService.emptyList()
       .pipe(
         finalize(() => {
           this.spinLoader = false;
         }))
       .subscribe({
-        next: () => {
-          this.messageService.add({ severity: 'success', summary: 'Successfully', detail: Messages.MUSIC_SUCCESSFULLY_DELETED });
+        next: (total) => {
+          this.messageService.add({ severity: 'success', summary: 'Successfully', detail: Messages.getEmptyListSuccessfully(total) });
           this.onSuccess.emit(true);
+          this.visibleChange.emit(false);
         },
         error: (err: HttpErrorResponse) => this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error.message })
       })
     );
+  }
+
+  onHide() {
+    this.visibleChange.emit(false);
   }
 
 }

@@ -1,13 +1,12 @@
-<p-dialog header="Definitive Delete Music" [(visible)]="visible" [modal]="true" (onHide)="onHide()"
-  [style]="{width: '500px'}">
+<p-dialog header="Empty List" [(visible)]="visible" [modal]="true" (onHide)="onHide()" [style]="{width: '500px'}">
   <div class="p-fluid p-formgrid p-grid">
     <div class="p-field p-col-12">
       <i class="pi pi-exclamation-triangle p-mr-3"></i>
-      <span>Are you sure you want to definitely delete music <b>{{music.artist}} - {{music.title}}</b>?</span>
+      <span>Do you really want to delete all deleted musics?</span>
     </div>
 
     <div class="p-field p-col-12 p-md-3">
-      <p-button label="Yes" (click)="actionDefinitiveDelete()" [disabled]="spinLoader" class="p-button-primary"
+      <p-button label="Yes" (click)="actionEmptyList()" [disabled]="spinLoader" class="p-button-primary"
         icon="pi pi-check">
       </p-button>
     </div>

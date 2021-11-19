@@ -26,6 +26,8 @@ export class DeletedMusicListComponent extends NeedAuthenticated implements OnIn
   definitiveDeleteMusicDialog = false;
   musicToDelete = MusicFactory.createDefaultMusic();
 
+  emptyListDialog = false;
+
   private subscriptions: Array<Subscription> = new Array();
   private lastEvent: LazyLoadEvent = {};
 
@@ -88,6 +90,14 @@ export class DeletedMusicListComponent extends NeedAuthenticated implements OnIn
   onDefinitiveDeleteMusicSuccess() {
     this.reloadList();
     this.musicToDelete = MusicFactory.createDefaultMusic();
+  }
+
+  openEmptyList() {
+    this.emptyListDialog = true;
+  }
+
+  onEmptyListSuccess() {
+    this.reloadList();
   }
 
   goToMusicList() {

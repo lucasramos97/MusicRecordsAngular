@@ -22,4 +22,8 @@ export default class Messages {
     return `${total} musics successfully restored!`;
   }
 
+  public static getEmptyListSuccessfully(total: number): string {
+    return `${total} musics definitely deleted!`;
+  }
+
 }
