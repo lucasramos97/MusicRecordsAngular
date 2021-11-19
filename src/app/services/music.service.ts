@@ -51,4 +51,8 @@ export class MusicService {
     return this.httpClient.post<number>(`${this.URL}/deleted/restore`, musics, this.HTTP_OPTIONS);
   }
 
+  public definitiveDelete(musicId: number | undefined): Observable<Music> {
+    return this.httpClient.delete<Music>(`${this.URL}/definitive/${musicId}`, this.HTTP_OPTIONS);
+  }
+
 }

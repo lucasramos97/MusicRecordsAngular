@@ -7,6 +7,7 @@ import { LazyLoadEvent, MessageService } from 'primeng/api';
 
 import { Music } from 'src/app/interfaces/all';
 import { MusicService } from 'src/app/services/music.service';
+import MusicFactory from 'src/app/utils/MusicFactory';
 import NeedAuthenticated from '../../base/NeedAuthenticated';
 
 @Component({
@@ -16,11 +17,14 @@ import NeedAuthenticated from '../../base/NeedAuthenticated';
 export class DeletedMusicListComponent extends NeedAuthenticated implements OnInit, OnDestroy {
 
   musics: Music[] = [];
-  selectedMusics: Music[] = [];
   totalRecords = 0;
   loading = true;
 
   restoreMusicsDialog = false;
+  selectedMusics: Music[] = [];
+
+  definitiveDeleteMusicDialog = false;
+  musicToDelete = MusicFactory.createDefaultMusic();
 
   private subscriptions: Array<Subscription> = new Array();
   private lastEvent: LazyLoadEvent = {};
@@ -73,12 +77,26 @@ export class DeletedMusicListComponent extends NeedAuthenticated implements OnIn
   }
 
   onRestoredMusicsSuccess() {
-    this.loadMusics(this.lastEvent);
-    this.selectedMusics = [];
+    this.reloadList();
+  }
+
+  openDefinitiveDelete(music: Music) {
+    this.musicToDelete = music;
+    this.definitiveDeleteMusicDialog = true;
+  }
+
+  onDefinitiveDeleteMusicSuccess() {
+    this.reloadList();
+    this.musicToDelete = MusicFactory.createDefaultMusic();
   }
 
   goToMusicList() {
     this.router.navigateByUrl('/musics');
+  }
+
+  private reloadList() {
+    this.loadMusics(this.lastEvent);
+    this.selectedMusics = [];
   }
 
 }

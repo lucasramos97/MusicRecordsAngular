@@ -1,23 +1,24 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { finalize, Subscription } from 'rxjs';
 
 import { MessageService } from 'primeng/api';
 
 import { Music } from 'src/app/interfaces/all';
 import { MusicService } from 'src/app/services/music.service';
+import MusicFactory from 'src/app/utils/MusicFactory';
 import Messages from 'src/app/utils/Messages';
 
 @Component({
-  selector: 'app-restore-musics',
-  templateUrl: './restore-musics.component.html'
+  selector: 'app-definitive-delete-music',
+  templateUrl: './definitive-delete-music.component.html'
 })
-export class RestoreMusicsComponent implements OnInit, OnDestroy {
+export class DefinitiveDeleteMusicComponent implements OnInit, OnDestroy {
 
   @Input() visible = false;
   @Output() visibleChange = new EventEmitter<boolean>();
 
-  @Input() musics: Music[] = [];
+  @Input() music: Music = MusicFactory.createDefaultMusic();
   @Output() onSuccess = new EventEmitter<boolean>();
 
   spinLoader = false;
@@ -30,23 +31,22 @@ export class RestoreMusicsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.spinLoader = false;
   }
 
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
-  actionRestoreMusics() {
+  actionDefinitiveDelete() {
     this.spinLoader = true;
-    this.subscriptions.push(this.musicService.restoreMusics(this.musics)
+    this.subscriptions.push(this.musicService.definitiveDelete(this.music.id)
       .pipe(
         finalize(() => {
           this.spinLoader = false;
         }))
       .subscribe({
-        next: (total) => {
-          this.messageService.add({ severity: 'success', summary: 'Successfully', detail: Messages.getRestoredMusicsSuccessfully(total) });
+        next: () => {
+          this.messageService.add({ severity: 'success', summary: 'Successfully', detail: Messages.MUSIC_DEFINITELY_DELETED_SUCCESSFULLY });
           this.onSuccess.emit(true);
           this.visibleChange.emit(false);
         },
