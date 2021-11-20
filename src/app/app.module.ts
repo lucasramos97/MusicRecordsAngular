@@ -31,6 +31,7 @@ import { RestoreMusicsComponent } from './components/musics/restore-musics/resto
 import { DefinitiveDeleteMusicComponent } from './components/musics/definitive-delete-music/definitive-delete-music.component';
 import { EmptyListComponent } from './components/musics/empty-list/empty-list.component';
 import { LogoutDialogComponent } from './components/utils/logout-dialog/logout-dialog.component';
+import { NotFoundComponent } from './components/utils/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { LogoutDialogComponent } from './components/utils/logout-dialog/logout-d
     DefinitiveDeleteMusicComponent,
     EmptyListComponent,
     LogoutDialogComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,
