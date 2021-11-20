@@ -48,7 +48,7 @@ import { LogoutDialogComponent } from './components/utils/logout-dialog/logout-d
     RestoreMusicsComponent,
     DefinitiveDeleteMusicComponent,
     EmptyListComponent,
-    LogoutDialogComponent
+    LogoutDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -65,9 +65,9 @@ import { LogoutDialogComponent } from './components/utils/logout-dialog/logout-d
     InputMaskModule,
     InputNumberModule,
     RadioButtonModule,
-    TooltipModule
+    TooltipModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

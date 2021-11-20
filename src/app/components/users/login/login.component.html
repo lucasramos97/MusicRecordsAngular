@@ -1,33 +1,65 @@
 <div class="container">
   <div class="box">
-
     <h1>Login</h1>
 
     <div class="p-fluid p-formgrid p-grid">
-
       <div class="p-field p-col-11" style="margin-left: 1rem; margin-top: 1rem">
         <label for="email">E-mail</label>
-        <input id="email" name="email" type="text" [(ngModel)]="login.email" pInputText autofocus
-          aria-describedby="email-help" [ngClass]="{'ng-invalid ng-dirty': submitted && !login.email}" />
-        <small *ngIf="submitted && !login.email" id="email-help" class="p-error">E-mail is required!</small>
+        <input
+          id="email"
+          name="email"
+          type="text"
+          [(ngModel)]="login.email"
+          pInputText
+          autofocus
+          aria-describedby="email-help"
+          [ngClass]="{ 'ng-invalid ng-dirty': submitted && !login.email }"
+        />
+        <small *ngIf="submitted && !login.email" id="email-help" class="p-error"
+          >E-mail is required!</small
+        >
       </div>
 
       <div class="p-field p-col-11" style="margin-left: 1rem">
         <label for="password">Password</label>
-        <p-password id="password" name="password" [(ngModel)]="login.password" [feedback]="false" [toggleMask]="true"
-          aria-describedby="password-help" [ngClass]="{'ng-invalid ng-dirty': submitted && !login.password}">
+        <p-password
+          id="password"
+          name="password"
+          [(ngModel)]="login.password"
+          [feedback]="false"
+          [toggleMask]="true"
+          aria-describedby="password-help"
+          [ngClass]="{ 'ng-invalid ng-dirty': submitted && !login.password }"
+        >
         </p-password>
-        <small *ngIf="submitted && !login.password" id="password-help" class="p-error">Password is required!</small>
+        <small
+          *ngIf="submitted && !login.password"
+          id="password-help"
+          class="p-error"
+          >Password is required!</small
+        >
       </div>
 
       <div class="p-field p-col-11" style="margin-left: 1rem">
-        <a href="#" (click)="$event.preventDefault(); openCreateUser();" class="link">Don't have a user yet?</a>
+        <a
+          href="#"
+          (click)="$event.preventDefault(); openCreateUser()"
+          class="link"
+          >Don't have a user yet?</a
+        >
       </div>
 
       <div class="p-field p-col-4 p-md-4" style="margin-left: 1rem">
-        <button pButton pRipple label="Login" (click)="actionLogin()" [disabled]="spinLoader" class="p-button-primary"
-          icon="pi pi-sign-in" iconPos="right">
-        </button>
+        <button
+          pButton
+          pRipple
+          label="Login"
+          (click)="actionLogin()"
+          [disabled]="spinLoader"
+          class="p-button-primary"
+          icon="pi pi-sign-in"
+          iconPos="right"
+        ></button>
       </div>
 
       <div class="p-field p-col-12 p-md-3">
@@ -37,5 +69,4 @@
   </div>
 </div>
 
-<app-create-user [(visible)]="visibleCreateUser">
-</app-create-user>
+<app-create-user [(visible)]="visibleCreateUser"> </app-create-user>

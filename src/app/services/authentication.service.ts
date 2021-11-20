@@ -3,10 +3,9 @@ import { Injectable } from '@angular/core';
 import { IAuthenticable } from '../interfaces/all';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthenticationService {
-
   private readonly TOKEN_KEY = 'token';
   private readonly USERNAME_KEY = 'username';
   private readonly EMAIL_KEY = 'email';

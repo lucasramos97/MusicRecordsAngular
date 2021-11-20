@@ -1,8 +1,10 @@
-import MusicFactory from "./MusicFactory";
+import MusicFactory from './MusicFactory';
 
 export default class DateUtils {
   public static createReleaseDate(releaseDate: string): Date {
-    return new Date(`${MusicFactory.formatSubmittedReleaseDate(releaseDate)}T00:00:00`);
+    return new Date(
+      `${MusicFactory.formatSubmittedReleaseDate(releaseDate)}T00:00:00`
+    );
   }
 
   public static createDuration(duration: string): Date {

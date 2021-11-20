@@ -3,23 +3,50 @@
 <h1>Deleted Music List</h1>
 
 <div class="table-top-buttons">
+  <button
+    pButton
+    pRipple
+    label="Restore"
+    (click)="openRestore()"
+    [disabled]="selectedMusics.length == 0"
+    class="p-button-primary"
+    icon="pi pi-refresh"
+  ></button>
 
-  <button pButton pRipple label="Restore" (click)="openRestore()" [disabled]="selectedMusics.length == 0"
-    class="p-button-primary" icon="pi pi-refresh">
-  </button>
+  <button
+    pButton
+    pRipple
+    label="Empty List"
+    (click)="openEmptyList()"
+    [disabled]="musics.length == 0"
+    class="p-button-danger"
+    icon="pi pi-ban"
+  ></button>
 
-  <button pButton pRipple label="Empty List" (click)="openEmptyList()" [disabled]="musics.length == 0"
-    class="p-button-danger" icon="pi pi-ban">
-  </button>
-
-  <button pButton pRipple label="Music List" (click)="goToMusicList()" class="p-button-primary"
-    icon="pi pi-arrow-right">
-  </button>
+  <button
+    pButton
+    pRipple
+    label="Music List"
+    (click)="goToMusicList()"
+    class="p-button-primary"
+    icon="pi pi-arrow-right"
+  ></button>
 </div>
 
-<p-table [value]="musics" [(selection)]="selectedMusics" dataKey="id" [lazy]="true" (onLazyLoad)="loadMusics($event)"
-  responsiveLayout="scroll" [paginator]="true" [rows]="5" [totalRecords]="totalRecords" [loading]="loading"
-  [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} musics">
+<p-table
+  [value]="musics"
+  [(selection)]="selectedMusics"
+  dataKey="id"
+  [lazy]="true"
+  (onLazyLoad)="loadMusics($event)"
+  responsiveLayout="scroll"
+  [paginator]="true"
+  [rows]="5"
+  [totalRecords]="totalRecords"
+  [loading]="loading"
+  [showCurrentPageReport]="true"
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} musics"
+>
   <ng-template pTemplate="header">
     <tr>
       <th style="width: 3rem">
@@ -41,29 +68,42 @@
       </td>
       <td>{{ music.title }}</td>
       <td>{{ music.artist }}</td>
-      <td>{{ music.release_date | date:"dd/MM/yyyy" }}</td>
+      <td>{{ music.release_date | date: 'dd/MM/yyyy' }}</td>
       <td>{{ music.duration | duration }}</td>
       <td>{{ music.number_views | number }}</td>
       <td>{{ music.feat | feat }}</td>
       <td>
-        <button pButton pRipple (click)="openDefinitiveDelete(music)" pTooltip="Definitive Delete Music"
-          class="p-button-rounded p-button-danger" icon="pi pi-trash">
-        </button>
+        <button
+          pButton
+          pRipple
+          (click)="openDefinitiveDelete(music)"
+          pTooltip="Definitive Delete Music"
+          class="p-button-rounded p-button-danger"
+          icon="pi pi-trash"
+        ></button>
       </td>
     </tr>
   </ng-template>
 </p-table>
 
-<app-restore-musics [(visible)]="visibleRestoreMusics" [musics]="selectedMusics"
-  (onSuccess)="onRestoredMusicsSuccess()">
+<app-restore-musics
+  [(visible)]="visibleRestoreMusics"
+  [musics]="selectedMusics"
+  (onSuccess)="onRestoredMusicsSuccess()"
+>
 </app-restore-musics>
 
-<app-definitive-delete-music [(visible)]="visibleDefinitiveDeleteMusic" [music]="musicToDelete"
-  (onSuccess)="onDefinitiveDeleteMusicSuccess()">
+<app-definitive-delete-music
+  [(visible)]="visibleDefinitiveDeleteMusic"
+  [music]="musicToDelete"
+  (onSuccess)="onDefinitiveDeleteMusicSuccess()"
+>
 </app-definitive-delete-music>
 
-<app-empty-list [(visible)]="visibleEmptyList" (onSuccess)="onEmptyListSuccess()">
+<app-empty-list
+  [(visible)]="visibleEmptyList"
+  (onSuccess)="onEmptyListSuccess()"
+>
 </app-empty-list>
 
-<app-session-expired [(visible)]="visibleSessionExpired">
-</app-session-expired>
+<app-session-expired [(visible)]="visibleSessionExpired"> </app-session-expired>

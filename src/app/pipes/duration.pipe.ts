@@ -1,10 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'duration'
+  name: 'duration',
 })
 export class DurationPipe implements PipeTransform {
-
   transform(value: string, ...args: unknown[]): string {
     if (!value) {
       return '';
@@ -12,5 +11,4 @@ export class DurationPipe implements PipeTransform {
 
     return `${value.slice(3)} min`;
   }
-
 }

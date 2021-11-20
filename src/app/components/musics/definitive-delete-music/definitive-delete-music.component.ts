@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { finalize, Subscription } from 'rxjs';
 
@@ -10,10 +17,9 @@ import Messages from 'src/app/utils/Messages';
 
 @Component({
   selector: 'app-definitive-delete-music',
-  templateUrl: './definitive-delete-music.component.html'
+  templateUrl: './definitive-delete-music.component.html',
 })
 export class DefinitiveDeleteMusicComponent implements OnInit, OnDestroy {
-
   @Input() visible = false;
   @Output() visibleChange = new EventEmitter<boolean>();
 
@@ -27,35 +33,45 @@ export class DefinitiveDeleteMusicComponent implements OnInit, OnDestroy {
   constructor(
     private musicService: MusicService,
     private messageService: MessageService
-  ) { }
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   ngOnDestroy() {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
   actionDefinitiveDelete() {
     this.spinLoader = true;
-    this.subscriptions.push(this.musicService.definitiveDelete(this.music.id)
-      .pipe(
-        finalize(() => {
-          this.spinLoader = false;
-        }))
-      .subscribe({
-        next: () => {
-          this.messageService.add({ severity: 'success', summary: 'Successfully', detail: Messages.MUSIC_DEFINITELY_DELETED_SUCCESSFULLY });
-          this.onSuccess.emit(true);
-          this.visibleChange.emit(false);
-        },
-        error: (err: HttpErrorResponse) => this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error.message })
-      })
+    this.subscriptions.push(
+      this.musicService
+        .definitiveDelete(this.music.id)
+        .pipe(
+          finalize(() => {
+            this.spinLoader = false;
+          })
+        )
+        .subscribe({
+          next: () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Successfully',
+              detail: Messages.MUSIC_DEFINITELY_DELETED_SUCCESSFULLY,
+            });
+            this.onSuccess.emit(true);
+            this.visibleChange.emit(false);
+          },
+          error: (err: HttpErrorResponse) =>
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: err.error.message,
+            }),
+        })
     );
   }
 
   onHide() {
     this.visibleChange.emit(false);
   }
-
 }

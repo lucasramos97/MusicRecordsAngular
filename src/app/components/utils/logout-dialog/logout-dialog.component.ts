@@ -5,10 +5,9 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-logout-dialog',
-  templateUrl: './logout-dialog.component.html'
+  templateUrl: './logout-dialog.component.html',
 })
 export class LogoutDialogComponent implements OnInit {
-
   @Input() visible = false;
   @Output() visibleChange = new EventEmitter<boolean>();
 
@@ -17,10 +16,9 @@ export class LogoutDialogComponent implements OnInit {
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router
-  ) { }
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   actionLogout() {
     this.authenticationService.logout();
@@ -30,5 +28,4 @@ export class LogoutDialogComponent implements OnInit {
   onHide() {
     this.visibleChange.emit(false);
   }
-
 }

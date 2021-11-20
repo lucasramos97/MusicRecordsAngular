@@ -1,4 +1,4 @@
-import { IMusic } from "../interfaces/all";
+import { IMusic } from '../interfaces/all';
 
 export default class MusicFactory {
   public static createDefaultMusic(): IMusic {
@@ -7,7 +7,7 @@ export default class MusicFactory {
       artist: '',
       release_date: '',
       duration: '',
-      feat: false
+      feat: false,
     };
   }
 
@@ -16,15 +16,15 @@ export default class MusicFactory {
       ...music,
       release_date: this.formatSubmittedReleaseDate(music.release_date),
       duration: this.formatSubmittedDuration(music.duration),
-      number_views: this.formatSubmittedNumberViews(music.number_views)
-    }
+      number_views: this.formatSubmittedNumberViews(music.number_views),
+    };
   }
 
   public static createEditMusic(music: IMusic): IMusic {
     return {
       ...music,
       release_date: this.formatEditReleaseDate(music.release_date),
-      duration: this.formatEditDuration(music.duration)
+      duration: this.formatEditDuration(music.duration),
     };
   }
 
@@ -41,7 +41,9 @@ export default class MusicFactory {
     return `00:${duration}`;
   }
 
-  private static formatSubmittedNumberViews(numberViews: number | undefined): number {
+  private static formatSubmittedNumberViews(
+    numberViews: number | undefined
+  ): number {
     if (numberViews) {
       return numberViews;
     }

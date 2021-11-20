@@ -12,13 +12,12 @@ import Messages from 'src/app/utils/Messages';
 import StringUtils from 'src/app/utils/StringUtils';
 
 @Component({
-  templateUrl: './login.component.html'
+  templateUrl: './login.component.html',
 })
 export class LoginComponent implements OnInit, OnDestroy {
-
   login: ILogin = {
     email: '',
-    password: ''
+    password: '',
   };
 
   submitted = false;
@@ -33,31 +32,38 @@ export class LoginComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private messageService: MessageService,
     private router: Router
-  ) { }
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   ngOnDestroy() {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
   actionLogin() {
     if (this.validLogin()) {
       this.spinLoader = true;
-      this.subscriptions.push(this.userService.login(this.login)
-        .pipe(
-          finalize(() => {
-            this.submitted = false;
-            this.spinLoader = false;
-          }))
-        .subscribe({
-          next: (authenticable) => {
-            this.authenticationService.setUser(authenticable);
-            this.router.navigateByUrl('/musics');
-          },
-          error: (err: HttpErrorResponse) => this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error.message })
-        })
+      this.subscriptions.push(
+        this.userService
+          .login(this.login)
+          .pipe(
+            finalize(() => {
+              this.submitted = false;
+              this.spinLoader = false;
+            })
+          )
+          .subscribe({
+            next: (authenticable) => {
+              this.authenticationService.setUser(authenticable);
+              this.router.navigateByUrl('/musics');
+            },
+            error: (err: HttpErrorResponse) =>
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: err.error.message,
+              }),
+          })
       );
     } else {
       this.submitted = true;
@@ -75,11 +81,14 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     if (!StringUtils.validEmail(this.login.email)) {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: Messages.EMAIL_INVALID });
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: Messages.EMAIL_INVALID,
+      });
       return false;
     }
 
     return true;
   }
-
 }

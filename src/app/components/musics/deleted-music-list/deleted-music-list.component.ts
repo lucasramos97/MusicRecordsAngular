@@ -12,10 +12,12 @@ import NeedAuthenticated from '../../base/NeedAuthenticated';
 
 @Component({
   selector: 'app-deleted-music-list',
-  templateUrl: './deleted-music-list.component.html'
+  templateUrl: './deleted-music-list.component.html',
 })
-export class DeletedMusicListComponent extends NeedAuthenticated implements OnInit, OnDestroy {
-
+export class DeletedMusicListComponent
+  extends NeedAuthenticated
+  implements OnInit, OnDestroy
+{
   musics: IMusic[] = [];
   totalRecords = 0;
   loading = true;
@@ -39,11 +41,10 @@ export class DeletedMusicListComponent extends NeedAuthenticated implements OnIn
     super();
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   ngOnDestroy() {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
   loadMusics(event: LazyLoadEvent) {
@@ -52,24 +53,31 @@ export class DeletedMusicListComponent extends NeedAuthenticated implements OnIn
     this.lastEvent = event;
 
     setTimeout(() => {
-      this.subscriptions.push(this.musicService.getAllDeleted(page, event.rows)
-        .pipe(
-          finalize(() => {
-            this.loading = false;
-          }))
-        .subscribe({
-          next: (pagedMusics) => {
-            this.musics = pagedMusics.content;
-            this.totalRecords = pagedMusics.total;
-          },
-          error: (err: HttpErrorResponse) => {
-            if (this.handlerSessionExpired(err)) {
-              return;
-            }
+      this.subscriptions.push(
+        this.musicService
+          .getAllDeleted(page, event.rows)
+          .pipe(
+            finalize(() => {
+              this.loading = false;
+            })
+          )
+          .subscribe({
+            next: (pagedMusics) => {
+              this.musics = pagedMusics.content;
+              this.totalRecords = pagedMusics.total;
+            },
+            error: (err: HttpErrorResponse) => {
+              if (this.handlerSessionExpired(err)) {
+                return;
+              }
 
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error.message })
-          }
-        })
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: err.error.message,
+              });
+            },
+          })
       );
     }, 1000);
   }
@@ -108,5 +116,4 @@ export class DeletedMusicListComponent extends NeedAuthenticated implements OnIn
     this.loadMusics(this.lastEvent);
     this.selectedMusics = [];
   }
-
 }

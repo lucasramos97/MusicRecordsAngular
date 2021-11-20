@@ -9,13 +9,21 @@ import { DeletedMusicListComponent } from './components/musics/deleted-music-lis
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'musics' },
-  { path: 'musics', component: MusicListComponent, canActivate: [AuthorizationGuard] },
-  { path: 'musics/deleted', component: DeletedMusicListComponent, canActivate: [AuthorizationGuard] },
+  {
+    path: 'musics',
+    component: MusicListComponent,
+    canActivate: [AuthorizationGuard],
+  },
+  {
+    path: 'musics/deleted',
+    component: DeletedMusicListComponent,
+    canActivate: [AuthorizationGuard],
+  },
   { path: 'login', component: LoginComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

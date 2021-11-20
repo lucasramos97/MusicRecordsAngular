@@ -12,10 +12,12 @@ import NeedAuthenticated from '../../base/NeedAuthenticated';
 
 @Component({
   selector: 'app-music-list',
-  templateUrl: './music-list.component.html'
+  templateUrl: './music-list.component.html',
 })
-export class MusicListComponent extends NeedAuthenticated implements OnInit, OnDestroy {
-
+export class MusicListComponent
+  extends NeedAuthenticated
+  implements OnInit, OnDestroy
+{
   musics: IMusic[] = [];
   totalRecords = 0;
   loading = true;
@@ -47,7 +49,7 @@ export class MusicListComponent extends NeedAuthenticated implements OnInit, OnD
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
   loadMusics(event: LazyLoadEvent) {
@@ -56,24 +58,31 @@ export class MusicListComponent extends NeedAuthenticated implements OnInit, OnD
     this.lastEvent = event;
 
     setTimeout(() => {
-      this.subscriptions.push(this.musicService.getAll(page, event.rows)
-        .pipe(
-          finalize(() => {
-            this.loading = false;
-          }))
-        .subscribe({
-          next: (pagedMusics) => {
-            this.musics = pagedMusics.content;
-            this.totalRecords = pagedMusics.total;
-          },
-          error: (err: HttpErrorResponse) => {
-            if (this.handlerSessionExpired(err)) {
-              return;
-            }
+      this.subscriptions.push(
+        this.musicService
+          .getAll(page, event.rows)
+          .pipe(
+            finalize(() => {
+              this.loading = false;
+            })
+          )
+          .subscribe({
+            next: (pagedMusics) => {
+              this.musics = pagedMusics.content;
+              this.totalRecords = pagedMusics.total;
+            },
+            error: (err: HttpErrorResponse) => {
+              if (this.handlerSessionExpired(err)) {
+                return;
+              }
 
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error.message })
-          }
-        })
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: err.error.message,
+              });
+            },
+          })
       );
     }, 1000);
   }
@@ -105,16 +114,20 @@ export class MusicListComponent extends NeedAuthenticated implements OnInit, OnD
   }
 
   loadCountDeletedMusics() {
-    this.subscriptions.push(this.musicService.countDeleted()
-      .subscribe({
-        next: (total) => this.countDeletedMusics = total,
+    this.subscriptions.push(
+      this.musicService.countDeleted().subscribe({
+        next: (total) => (this.countDeletedMusics = total),
         error: (err: HttpErrorResponse) => {
           if (this.handlerSessionExpired(err)) {
             return;
           }
 
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error.message })
-        }
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: err.error.message,
+          });
+        },
       })
     );
   }
@@ -126,5 +139,4 @@ export class MusicListComponent extends NeedAuthenticated implements OnInit, OnD
   openLogout() {
     this.logoutDialog = true;
   }
-
 }
