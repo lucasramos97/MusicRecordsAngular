@@ -41,16 +41,16 @@ export class DefinitiveDeleteMusicComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
+  onHide() {
+    this.visibleChange.emit(false);
+  }
+
   actionDefinitiveDelete() {
     this.spinLoader = true;
     this.subscriptions.push(
       this.musicService
         .definitiveDelete(this.music.id)
-        .pipe(
-          finalize(() => {
-            this.spinLoader = false;
-          })
-        )
+        .pipe(finalize(() => (this.spinLoader = false)))
         .subscribe({
           next: () => {
             this.messageService.add({
@@ -69,9 +69,5 @@ export class DefinitiveDeleteMusicComponent implements OnInit, OnDestroy {
             }),
         })
     );
-  }
-
-  onHide() {
-    this.visibleChange.emit(false);
   }
 }

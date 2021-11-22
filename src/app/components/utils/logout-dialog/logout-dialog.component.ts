@@ -11,8 +11,6 @@ export class LogoutDialogComponent implements OnInit {
   @Input() visible = false;
   @Output() visibleChange = new EventEmitter<boolean>();
 
-  spinLoader = false;
-
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router

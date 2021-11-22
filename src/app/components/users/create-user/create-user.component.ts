@@ -7,7 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { finalize, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 import { MessageService } from 'primeng/api';
 
@@ -46,42 +46,44 @@ export class CreateUserComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
+  onHide() {
+    this.user = {
+      username: '',
+      email: '',
+      password: '',
+    };
+    this.submitted = false;
+    this.spinLoader = false;
+    this.visibleChange.emit(false);
+  }
+
   actionCreateUser() {
     if (this.validUser()) {
       this.spinLoader = true;
       this.subscriptions.push(
-        this.userService
-          .create(this.user)
-          .pipe(
-            finalize(() => {
-              this.submitted = false;
-              this.spinLoader = false;
-            })
-          )
-          .subscribe({
-            next: () => {
-              this.messageService.add({
-                severity: 'success',
-                summary: 'Successfully',
-                detail: Messages.USER_SUCCESSFULLY_CREATE,
-              });
-              this.visibleChange.emit(false);
-            },
-            error: (err: HttpErrorResponse) =>
-              this.messageService.add({
-                severity: 'error',
-                summary: 'Error',
-                detail: err.error.message,
-              }),
-          })
+        this.userService.create(this.user).subscribe({
+          next: () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Successfully',
+              detail: Messages.USER_SUCCESSFULLY_CREATE,
+            });
+            this.onHide();
+          },
+          error: (err: HttpErrorResponse) => {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: err.error.message,
+            });
+            this.submitted = false;
+            this.spinLoader = false;
+          },
+        })
       );
     } else {
       this.submitted = true;
     }
-  }
-
-  onHide() {
-    this.visibleChange.emit(false);
   }
 
   private validUser() {

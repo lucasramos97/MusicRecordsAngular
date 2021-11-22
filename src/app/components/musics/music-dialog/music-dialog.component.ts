@@ -44,6 +44,12 @@ export class MusicDialogComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
+  onHide() {
+    this.submitted = false;
+    this.spinLoader = false;
+    this.visibleChange.emit(false);
+  }
+
   actionSave() {
     if (this.validMusic()) {
       this.spinLoader = true;
@@ -55,10 +61,6 @@ export class MusicDialogComponent implements OnInit, OnDestroy {
     } else {
       this.submitted = true;
     }
-  }
-
-  onHide() {
-    this.visibleChange.emit(false);
   }
 
   private validMusic(): boolean {
@@ -79,6 +81,7 @@ export class MusicDialogComponent implements OnInit, OnDestroy {
         summary: 'Error',
         detail: Messages.getInvalidDate(this.music.release_date),
       });
+
       return false;
     }
 
@@ -88,6 +91,7 @@ export class MusicDialogComponent implements OnInit, OnDestroy {
         summary: 'Error',
         detail: Messages.RELEASE_DATE_CANNOT_BE_FUTURE,
       });
+
       return false;
     }
 
@@ -98,6 +102,7 @@ export class MusicDialogComponent implements OnInit, OnDestroy {
         summary: 'Error',
         detail: Messages.getInvalidTime(this.music.duration),
       });
+
       return false;
     }
 

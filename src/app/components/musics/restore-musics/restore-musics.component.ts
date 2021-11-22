@@ -43,16 +43,16 @@ export class RestoreMusicsComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
+  onHide() {
+    this.visibleChange.emit(false);
+  }
+
   actionRestoreMusics() {
     this.spinLoader = true;
     this.subscriptions.push(
       this.musicService
         .restoreMusics(this.musics)
-        .pipe(
-          finalize(() => {
-            this.spinLoader = false;
-          })
-        )
+        .pipe(finalize(() => (this.spinLoader = false)))
         .subscribe({
           next: (total) => {
             this.messageService.add({
@@ -71,9 +71,5 @@ export class RestoreMusicsComponent implements OnInit, OnDestroy {
             }),
         })
     );
-  }
-
-  onHide() {
-    this.visibleChange.emit(false);
   }
 }

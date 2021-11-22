@@ -39,16 +39,16 @@ export class EmptyListComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
+  onHide() {
+    this.visibleChange.emit(false);
+  }
+
   actionEmptyList() {
     this.spinLoader = true;
     this.subscriptions.push(
       this.musicService
         .emptyList()
-        .pipe(
-          finalize(() => {
-            this.spinLoader = false;
-          })
-        )
+        .pipe(finalize(() => (this.spinLoader = false)))
         .subscribe({
           next: (total) => {
             this.messageService.add({
@@ -67,9 +67,5 @@ export class EmptyListComponent implements OnInit, OnDestroy {
             }),
         })
     );
-  }
-
-  onHide() {
-    this.visibleChange.emit(false);
   }
 }

@@ -17,14 +17,9 @@
         pRipple
         label="Yes"
         (click)="actionLogout()"
-        [disabled]="spinLoader"
         class="p-button-primary"
         icon="pi pi-check"
       ></button>
-    </div>
-
-    <div class="p-field p-col-12 p-md-3">
-      <div *ngIf="spinLoader" class="spin-loader"></div>
     </div>
   </div>
 </p-dialog>

@@ -18,9 +18,9 @@
         aria-describedby="title-help"
         [ngClass]="{ 'ng-invalid ng-dirty': submitted && !music.title }"
       />
-      <small *ngIf="submitted && !music.title" id="title-help" class="p-error"
-        >Title is required!</small
-      >
+      <small *ngIf="submitted && !music.title" id="title-help" class="p-error">
+        Title is required!
+      </small>
     </div>
 
     <div class="p-field p-col-12">
@@ -34,9 +34,13 @@
         aria-describedby="artist-help"
         [ngClass]="{ 'ng-invalid ng-dirty': submitted && !music.artist }"
       />
-      <small *ngIf="submitted && !music.artist" id="artist-help" class="p-error"
-        >Artist is required!</small
+      <small
+        *ngIf="submitted && !music.artist"
+        id="artist-help"
+        class="p-error"
       >
+        Artist is required!
+      </small>
     </div>
 
     <div class="p-field p-col-12 p-md-6">
@@ -48,8 +52,7 @@
         mask="99/99/9999"
         aria-describedby="releaseDate-help"
         [ngClass]="{ 'ng-invalid ng-dirty': submitted && !music.release_date }"
-      >
-      </p-inputMask>
+      ></p-inputMask>
       <small
         *ngIf="submitted && !music.release_date"
         id="releaseDate-help"
@@ -68,14 +71,14 @@
         mask="99:99"
         aria-describedby="duration-help"
         [ngClass]="{ 'ng-invalid ng-dirty': submitted && !music.duration }"
-      >
-      </p-inputMask>
+      ></p-inputMask>
       <small
         *ngIf="submitted && !music.duration"
         id="duration-help"
         class="p-error"
-        >Duration is required!</small
       >
+        Duration is required!
+      </small>
     </div>
 
     <div class="p-field p-col-12 p-md-6">
@@ -103,8 +106,7 @@
           [value]="false"
           [(ngModel)]="music.feat"
           [style]="{ marginLeft: '15px' }"
-        >
-        </p-radioButton>
+        ></p-radioButton>
         <label for="no">No</label>
       </div>
     </div>

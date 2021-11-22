@@ -8,7 +8,7 @@
     pRipple
     label="Restore"
     (click)="openRestore()"
-    [disabled]="selectedMusics.length == 0"
+    [disabled]="selectedMusics.length === 0"
     class="p-button-primary"
     icon="pi pi-refresh"
   ></button>
@@ -18,7 +18,7 @@
     pRipple
     label="Empty List"
     (click)="openEmptyList()"
-    [disabled]="musics.length == 0"
+    [disabled]="musics.length === 0"
     class="p-button-danger"
     icon="pi pi-ban"
   ></button>
@@ -84,26 +84,28 @@
       </td>
     </tr>
   </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr class="p-datatable-emptymessage" role="row">
+      <td colspan="8" role="cell">No musics found.</td>
+    </tr>
+  </ng-template>
 </p-table>
 
 <app-restore-musics
   [(visible)]="visibleRestoreMusics"
   [musics]="selectedMusics"
-  (onSuccess)="onRestoredMusicsSuccess()"
->
-</app-restore-musics>
+  (onSuccess)="reloadList()"
+></app-restore-musics>
+
+<app-empty-list
+  [(visible)]="visibleEmptyList"
+  (onSuccess)="reloadList()"
+></app-empty-list>
 
 <app-definitive-delete-music
   [(visible)]="visibleDefinitiveDeleteMusic"
   [music]="musicToDelete"
   (onSuccess)="onDefinitiveDeleteMusicSuccess()"
->
-</app-definitive-delete-music>
+></app-definitive-delete-music>
 
-<app-empty-list
-  [(visible)]="visibleEmptyList"
-  (onSuccess)="onEmptyListSuccess()"
->
-</app-empty-list>
-
-<app-session-expired [(visible)]="visibleSessionExpired"> </app-session-expired>
+<app-session-expired [(visible)]="visibleSessionExpired"></app-session-expired>

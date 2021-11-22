@@ -47,6 +47,23 @@ export class DeletedMusicListComponent
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
+  openRestore() {
+    this.visibleRestoreMusics = true;
+  }
+
+  reloadList() {
+    this.loadMusics(this.lastEvent);
+    this.selectedMusics = [];
+  }
+
+  openEmptyList() {
+    this.visibleEmptyList = true;
+  }
+
+  goToMusicList() {
+    this.router.navigateByUrl('/musics');
+  }
+
   loadMusics(event: LazyLoadEvent) {
     this.loading = true;
     const page = event.first! / event.rows! + 1;
@@ -54,40 +71,26 @@ export class DeletedMusicListComponent
 
     setTimeout(() => {
       this.subscriptions.push(
-        this.musicService
-          .getAllDeleted(page, event.rows)
-          .pipe(
-            finalize(() => {
-              this.loading = false;
-            })
-          )
-          .subscribe({
-            next: (pagedMusics) => {
-              this.musics = pagedMusics.content;
-              this.totalRecords = pagedMusics.total;
-            },
-            error: (err: HttpErrorResponse) => {
-              if (this.handlerSessionExpired(err)) {
-                return;
-              }
+        this.musicService.getAllDeleted(page, event.rows).subscribe({
+          next: (pagedMusics) => {
+            this.musics = pagedMusics.content;
+            this.totalRecords = pagedMusics.total;
+            this.loading = false;
+          },
+          error: (err: HttpErrorResponse) => {
+            if (this.handlerSessionExpired(err)) {
+              return;
+            }
 
-              this.messageService.add({
-                severity: 'error',
-                summary: 'Error',
-                detail: err.error.message,
-              });
-            },
-          })
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: err.error.message,
+            });
+          },
+        })
       );
     }, 1000);
-  }
-
-  openRestore() {
-    this.visibleRestoreMusics = true;
-  }
-
-  onRestoredMusicsSuccess() {
-    this.reloadList();
   }
 
   openDefinitiveDelete(music: IMusic) {
@@ -98,22 +101,5 @@ export class DeletedMusicListComponent
   onDefinitiveDeleteMusicSuccess() {
     this.reloadList();
     this.musicToDelete = MusicFactory.createDefaultMusic();
-  }
-
-  openEmptyList() {
-    this.visibleEmptyList = true;
-  }
-
-  onEmptyListSuccess() {
-    this.reloadList();
-  }
-
-  goToMusicList() {
-    this.router.navigateByUrl('/musics');
-  }
-
-  private reloadList() {
-    this.loadMusics(this.lastEvent);
-    this.selectedMusics = [];
   }
 }

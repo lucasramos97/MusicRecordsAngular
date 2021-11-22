@@ -15,9 +15,13 @@
           aria-describedby="email-help"
           [ngClass]="{ 'ng-invalid ng-dirty': submitted && !login.email }"
         />
-        <small *ngIf="submitted && !login.email" id="email-help" class="p-error"
-          >E-mail is required!</small
+        <small
+          *ngIf="submitted && !login.email"
+          id="email-help"
+          class="p-error"
         >
+          E-mail is required!
+        </small>
       </div>
 
       <div class="p-field p-col-11" style="margin-left: 1rem">
@@ -36,8 +40,9 @@
           *ngIf="submitted && !login.password"
           id="password-help"
           class="p-error"
-          >Password is required!</small
         >
+          Password is required!
+        </small>
       </div>
 
       <div class="p-field p-col-11" style="margin-left: 1rem">
@@ -45,8 +50,9 @@
           href="#"
           (click)="$event.preventDefault(); openCreateUser()"
           class="link"
-          >Don't have a user yet?</a
         >
+          Don't have a user yet?
+        </a>
       </div>
 
       <div class="p-field p-col-4 p-md-4" style="margin-left: 1rem">

@@ -22,8 +22,9 @@
         *ngIf="submitted && !user.username"
         id="username-help"
         class="p-error"
-        >Username is required!</small
       >
+        Username is required!
+      </small>
     </div>
 
     <div class="p-field p-col-12">
@@ -37,9 +38,9 @@
         aria-describedby="email-help"
         [ngClass]="{ 'ng-invalid ng-dirty': submitted && !user.email }"
       />
-      <small *ngIf="submitted && !user.email" id="email-help" class="p-error"
-        >E-mail is required!</small
-      >
+      <small *ngIf="submitted && !user.email" id="email-help" class="p-error">
+        E-mail is required!
+      </small>
     </div>
 
     <div class="p-field p-col-12">
@@ -57,8 +58,9 @@
         *ngIf="submitted && !user.password"
         id="password-help"
         class="p-error"
-        >Password is required!</small
       >
+        Password is required!
+      </small>
     </div>
 
     <div class="p-field p-col-12 p-md-3">

@@ -20,8 +20,7 @@
     badgeClass="p-badge-danger"
     styleClass="p-button-primary"
     icon="pi pi-trash"
-  >
-  </p-button>
+  ></p-button>
 
   <button
     pButton
@@ -88,6 +87,11 @@
       </td>
     </tr>
   </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr class="p-datatable-emptymessage" role="row">
+      <td colspan="8" role="cell">No musics found.</td>
+    </tr>
+  </ng-template>
 </p-table>
 
 <app-music-dialog
@@ -95,16 +99,14 @@
   [title]="titleMusicDialog"
   [music]="music"
   (onSuccess)="onMusicDialogSuccess()"
->
-</app-music-dialog>
+></app-music-dialog>
 
 <app-delete-music
   [(visible)]="visibleDeleteMusic"
   [music]="musicToDelete"
   (onSuccess)="onDeleteMusicSuccess()"
->
-</app-delete-music>
+></app-delete-music>
 
-<app-logout-dialog [(visible)]="logoutDialog"> </app-logout-dialog>
+<app-logout-dialog [(visible)]="logoutDialog"></app-logout-dialog>
 
-<app-session-expired [(visible)]="visibleSessionExpired"> </app-session-expired>
+<app-session-expired [(visible)]="visibleSessionExpired"></app-session-expired>

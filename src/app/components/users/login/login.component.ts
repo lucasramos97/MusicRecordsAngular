@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { finalize, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 import { MessageService } from 'primeng/api';
 
@@ -44,26 +44,21 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this.validLogin()) {
       this.spinLoader = true;
       this.subscriptions.push(
-        this.userService
-          .login(this.login)
-          .pipe(
-            finalize(() => {
-              this.submitted = false;
-              this.spinLoader = false;
-            })
-          )
-          .subscribe({
-            next: (authenticable) => {
-              this.authenticationService.setUser(authenticable);
-              this.router.navigateByUrl('/musics');
-            },
-            error: (err: HttpErrorResponse) =>
-              this.messageService.add({
-                severity: 'error',
-                summary: 'Error',
-                detail: err.error.message,
-              }),
-          })
+        this.userService.login(this.login).subscribe({
+          next: (authenticable) => {
+            this.authenticationService.setUser(authenticable);
+            this.router.navigateByUrl('/musics');
+          },
+          error: (err: HttpErrorResponse) => {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: err.error.message,
+            });
+            this.submitted = false;
+            this.spinLoader = false;
+          },
+        })
       );
     } else {
       this.submitted = true;

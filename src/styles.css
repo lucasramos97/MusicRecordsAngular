@@ -45,8 +45,12 @@ div.p-field.p-col-12.p-md-3 {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .container {
@@ -70,7 +74,7 @@ div.p-field.p-col-12.p-md-3 {
 }
 
 .link {
-  color: #2196F3;
+  color: #2196f3;
   text-decoration: none;
 }
 
