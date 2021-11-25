@@ -4,7 +4,7 @@ export default class NeedAuthenticated {
   public visibleSessionExpired = false;
 
   protected handlerSessionExpired(err: HttpErrorResponse): boolean {
-    if (err.status === 401 && !this.visibleSessionExpired) {
+    if (err.status === 401) {
       this.visibleSessionExpired = true;
     }
 

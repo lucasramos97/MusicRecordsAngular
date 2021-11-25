@@ -103,11 +103,13 @@ export class MusicListComponent
               return;
             }
 
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: err.error.message,
-            });
+            if (!this.visibleSessionExpired) {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: err.error.message,
+              });
+            }
           },
         })
       );
